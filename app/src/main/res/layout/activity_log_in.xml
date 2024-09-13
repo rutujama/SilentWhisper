@@ -111,7 +111,7 @@
                 android:layout_height="wrap_content"
                 android:text="Submit"
                 android:background="@drawable/roundeddialog"
-                android:backgroundTint=""
+                android:backgroundTint="@color/inkblue"
                 android:layout_gravity="center"
                 >
 
