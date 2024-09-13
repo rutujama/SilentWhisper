@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/royalblue"
+    tools:context=".LogIn">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log In"
+        android:textSize="60dp"
+        android:textStyle="bold"
+        android:layout_marginBottom="50dp">
+
+    </TextView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="300dp"
+        android:layout_height="350dp"
+        app:cardCornerRadius="15dp">
+
+        <LinearLayout
+           android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/gradientbg"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="Email"
+                android:textColor="@color/white"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp">
+
+            </TextView>
+
+            <EditText
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/roundeddialog"
+                android:backgroundTint="@color/white"
+                android:layout_marginBottom="8dp"
+                >
+
+            </EditText>
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text="Password"
+                android:textColor="@color/white"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                >
+
+            </TextView>
+
+            <EditText
+                android:layout_width="250dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/roundeddialog"
+                android:backgroundTint="@color/white"
+                android:paddingBottom="5dp"
+                android:layout_marginBottom="8dp">
+
+
+            </EditText>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                >
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:text="New User"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    android:textStyle="bold">
+
+                </TextView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Forgot Password"
+                    android:textSize="15dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:layout_gravity="right">
+
+                </TextView>
+            </LinearLayout>
+            <androidx.appcompat.widget.AppCompatButton
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit"
+                android:background="@drawable/roundeddialog"
+                android:backgroundTint=""
+                android:layout_gravity="center"
+                >
+
+            </androidx.appcompat.widget.AppCompatButton>
+
+
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>

@@ -8,6 +8,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 //        Hemlo
-        // trial yash branch
+        // trial yash branchg
     }
 }
