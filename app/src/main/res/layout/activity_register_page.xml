@@ -27,10 +27,11 @@
     </TextView>
     <androidx.cardview.widget.CardView
         android:layout_width="300dp"
-        android:layout_height="500dp"
+        android:layout_height="530dp"
         app:cardCornerRadius="15dp"
         android:elevation="5dp"
         android:layout_gravity="center">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,6 +39,14 @@
             android:orientation="vertical"
             android:background="@drawable/gradientbg"
             android:padding="15dp">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/swlogo"
+                android:layout_gravity="center">
+
+            </ImageView>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -53,10 +62,12 @@
             <EditText
                 android:id="@+id/emailbox"
                 android:layout_width="270dp"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:background="@drawable/roundeddialog"
                 android:backgroundTint="@color/white"
-                android:layout_marginBottom="15dp">
+                android:layout_marginBottom="15dp"
+                android:padding="10dp"
+                android:textColor="@color/black">
 
             </EditText>
             <TextView
@@ -72,10 +83,12 @@
             <EditText
                 android:id="@+id/mobilenumbox"
                 android:layout_width="270dp"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:background="@drawable/roundeddialog"
                 android:backgroundTint="@color/white"
-                android:layout_marginBottom="15dp">
+                android:layout_marginBottom="15dp"
+                android:padding="10dp"
+                android:textColor="@color/black">
 
             </EditText>
             <TextView
@@ -91,10 +104,12 @@
             <EditText
                 android:id="@+id/passbox"
                 android:layout_width="270dp"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:background="@drawable/roundeddialog"
                 android:backgroundTint="@color/white"
-                android:layout_marginBottom="15dp">
+                android:layout_marginBottom="15dp"
+                android:padding="10dp"
+                android:textColor="@color/black">
 
             </EditText>
             <TextView
@@ -110,10 +125,12 @@
             <EditText
                 android:id="@+id/confirmpassbox"
                 android:layout_width="270dp"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:background="@drawable/roundeddialog"
                 android:backgroundTint="@color/white"
-                android:layout_marginBottom="15dp">
+                android:layout_marginBottom="15dp"
+                android:padding="10dp"
+                android:textColor="@color/black">
 
             </EditText>
 
