@@ -10,21 +10,117 @@
     android:gravity="center">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:text="Register"
         android:textSize="50dp"
         android:textStyle="bold"
-        android:textColor="@color/white">
+        android:textColor="@color/white"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="20dp">
 
     </TextView>
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="350dp"
-        android:layout_height="400dp"
-        android:background="@drawable/gradientbg">
+        android:layout_height="500dp"
+        app:cardCornerRadius="15dp"
+        android:elevation="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/gradientbg"
+            android:padding="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:text="E-mail"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp">
+
+            </TextView>
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:background="@drawable/roundeddialog"
+                android:backgroundTint="@color/white"
+                android:layout_marginBottom="20dp">
+
+            </EditText>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:text="E-mail"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp">
+
+            </TextView>
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:background="@drawable/roundeddialog"
+                android:backgroundTint="@color/white"
+                android:layout_marginBottom="20dp">
+
+            </EditText>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:text="E-mail"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp">
+
+            </TextView>
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:background="@drawable/roundeddialog"
+                android:backgroundTint="@color/white"
+                android:layout_marginBottom="20dp">
+
+            </EditText>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:text="E-mail"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="5dp">
+
+            </TextView>
+            <EditText
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:background="@drawable/roundeddialog"
+                android:backgroundTint="@color/white"
+                android:layout_marginBottom="20dp">
+
+            </EditText>
+            
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
+
+            </Button>
 
 
-    </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
 
 </LinearLayout>

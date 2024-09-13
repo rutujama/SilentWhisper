@@ -4,7 +4,7 @@
     <stroke android:width="3dp">
 
     </stroke>
-    <corners android:radius="25dp">
+    <corners android:radius="20dp">
 
     </corners>
 
