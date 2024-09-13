@@ -27,5 +27,4 @@ class LogIn : AppCompatActivity() {
             finish()
         }
     }
-    }
 }
