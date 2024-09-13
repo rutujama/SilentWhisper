@@ -27,7 +27,7 @@
     </TextView>
     <androidx.cardview.widget.CardView
         android:layout_width="300dp"
-        android:layout_height="530dp"
+        android:layout_height="580dp"
         app:cardCornerRadius="15dp"
         android:elevation="5dp"
         android:layout_gravity="center">
@@ -41,12 +41,20 @@
             android:padding="15dp">
 
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:src="@drawable/swlogo"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp">
 
             </ImageView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+            android:background="@android:color/white"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -62,11 +70,11 @@
             <EditText
                 android:id="@+id/emailbox"
                 android:layout_width="270dp"
-                android:layout_height="35dp"
+                android:layout_height="40dp"
                 android:background="@drawable/roundeddialog"
                 android:backgroundTint="@color/white"
                 android:layout_marginBottom="15dp"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:textColor="@color/black">
 
             </EditText>
@@ -83,11 +91,11 @@
             <EditText
                 android:id="@+id/mobilenumbox"
                 android:layout_width="270dp"
-                android:layout_height="35dp"
+                android:layout_height="40dp"
                 android:background="@drawable/roundeddialog"
                 android:backgroundTint="@color/white"
                 android:layout_marginBottom="15dp"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:textColor="@color/black">
 
             </EditText>
@@ -104,11 +112,11 @@
             <EditText
                 android:id="@+id/passbox"
                 android:layout_width="270dp"
-                android:layout_height="35dp"
+                android:layout_height="40dp"
                 android:background="@drawable/roundeddialog"
                 android:backgroundTint="@color/white"
                 android:layout_marginBottom="15dp"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:textColor="@color/black">
 
             </EditText>
@@ -125,11 +133,11 @@
             <EditText
                 android:id="@+id/confirmpassbox"
                 android:layout_width="270dp"
-                android:layout_height="35dp"
+                android:layout_height="40dp"
                 android:background="@drawable/roundeddialog"
                 android:backgroundTint="@color/white"
-                android:layout_marginBottom="15dp"
-                android:padding="10dp"
+                android:layout_marginBottom="12dp"
+                android:padding="5dp"
                 android:textColor="@color/black">
 
             </EditText>
@@ -153,24 +161,25 @@
                 </TextView>
 
             </FrameLayout>
+
             <FrameLayout
                 android:layout_width="270dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp">
+                android:layout_marginTop="10dp">
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/submitbtn"
-                    android:layout_width="100dp"
+                    android:layout_width="90dp"
                     android:layout_height="45dp"
                     android:background="@drawable/roundeddialog"
                     android:text="SUBMIT"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     android:layout_gravity="center_horizontal"
                     android:backgroundTint="@color/inkblue"/>
 
             </FrameLayout>
-
         </LinearLayout>
+
 
     </androidx.cardview.widget.CardView>
     </LinearLayout>

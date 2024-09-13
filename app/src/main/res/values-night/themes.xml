@@ -3,5 +3,7 @@
     <style name="Base.Theme.SilentWhisper" parent="Theme.Material3.Dark.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="android:statusBarColor">@color/royalblue</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 </resources>

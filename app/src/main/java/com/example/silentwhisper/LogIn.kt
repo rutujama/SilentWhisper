@@ -13,7 +13,7 @@ class LogIn : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_log_in)
-        binder=ActivityLogInBinding.inflate(layoutInflater)
+        binder = ActivityLogInBinding.inflate(layoutInflater)
         setContentView(binder.root)
 
         binder.submitbtn.setOnClickListener {
@@ -23,8 +23,8 @@ class LogIn : AppCompatActivity() {
 
 
         binder.newuserbtn.setOnClickListener {
-            startActivity(Intent(this@LogIn,RegisterPage::class.java))
+            startActivity(Intent(this@LogIn, RegisterPage::class.java))
             finish()
         }
     }
-    }
+}
