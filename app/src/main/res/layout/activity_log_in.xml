@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:text="Log In"
         android:textSize="60dp"
+        android:textColor="@color/white"
         android:textStyle="bold"
         android:layout_marginBottom="50dp">
 
@@ -21,7 +22,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="300dp"
-        android:layout_height="350dp"
+        android:layout_height="320dp"
         app:cardCornerRadius="15dp">
 
         <LinearLayout
@@ -35,22 +36,21 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
+                android:layout_marginLeft="5dp"
                 android:text="Email"
                 android:textColor="@color/white"
-                android:textSize="30dp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp">
+                android:textSize="30dp">
 
             </TextView>
 
             <EditText
-                android:layout_width="250dp"
-                android:layout_height="50dp"
+                android:layout_width="270dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/roundeddialog"
                 android:backgroundTint="@color/white"
-                android:padding="5dp"
+                android:padding="6dp"
                 android:textColor="@color/black"
                 android:layout_marginBottom="8dp"
                 >
@@ -59,26 +59,26 @@
 
             <TextView
                 android:layout_width="150dp"
+                android:layout_marginLeft="5dp"
                 android:layout_height="50dp"
                 android:text="Password"
                 android:textColor="@color/white"
                 android:textSize="30dp"
-                android:textStyle="bold"
                 >
 
             </TextView>
 
 
 
-                        <EditText
-                android:layout_width="250dp"
-                android:layout_height="50dp"
+            <EditText
+                android:layout_width="270dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/roundeddialog"
                 android:backgroundTint="@color/white"
                 android:textColor="@color/black"
-                android:padding="5dp"
+                android:padding="6dp"
                 android:layout_marginBottom="8dp">
 
 
@@ -88,7 +88,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:layout_marginLeft="5dp"
                 >
                 <TextView
                     android:id="@+id/newuserbtn"
@@ -116,14 +116,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Submit"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/roundeddialog"
                 android:backgroundTint="@color/inkblue"
                 android:layout_gravity="center"
                 >
 
             </androidx.appcompat.widget.AppCompatButton>
-
-
 
 
         </LinearLayout>
