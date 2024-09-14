@@ -12,8 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 class RegisterPage : AppCompatActivity() {
     lateinit var bind:ActivityRegisterPageBinding
     lateinit var auth:FirebaseAuth
-//    lateinit var emailinputedittext:TextInputEditText
-//    lateinit var passinputedittext:TextInputEditText
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +34,7 @@ class RegisterPage : AppCompatActivity() {
                     auth.createUserWithEmailAndPassword(email, passreg).addOnCompleteListener {
                         if (it.isSuccessful)
                         {
-                            val intent = Intent(this, RegisterPage::class.java)
+                            val intent = Intent(this, LogIn::class.java)
                             startActivity(intent)
                         }
                         else
