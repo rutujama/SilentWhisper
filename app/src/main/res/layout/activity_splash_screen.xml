@@ -13,36 +13,28 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="320dp"
+            android:layout_height="320dp"
+            app:lottie_rawRes="@raw/gradlottie"
+            app:lottie_autoPlay="true"
+            android:layout_gravity="center"
+            app:lottie_loop="false"
+            app:lottie_speed="0.75">
 
-<!--        <com.airbnb.lottie.LottieAnimationView-->
-<!--            android:layout_width="280dp"-->
-<!--            android:layout_height="280dp"-->
-<!--            app:lottie_rawRes="@raw/gradlottie"-->
-<!--            app:lottie_loop="true"-->
-<!--            app:lottie_autoPlay="true">-->
-
-<!--        </com.airbnb.lottie.LottieAnimationView>-->
+        </com.airbnb.lottie.LottieAnimationView>
 
         <com.airbnb.lottie.LottieAnimationView
-        android:layout_width="280dp"
-        android:layout_height="280dp"
-        app:lottie_rawRes="@raw/owlanimation"
-        app:lottie_loop="true"
-        app:lottie_autoPlay="true">
+            android:layout_width="280dp"
+            android:layout_height="280dp"
+            app:lottie_rawRes="@raw/owlanimation"
+            app:lottie_loop="false"
+            app:lottie_autoPlay="true"
+            android:layout_gravity="center">
 
         </com.airbnb.lottie.LottieAnimationView>
     </FrameLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/bellota_light"
-        android:text="Silent Whisper"
-        android:textColor="@color/white"
-        android:textSize="40dp"
-        android:textStyle="bold">
-
-    </TextView>
 
 
 </LinearLayout>
