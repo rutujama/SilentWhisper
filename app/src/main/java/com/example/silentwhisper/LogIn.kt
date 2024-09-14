@@ -32,7 +32,7 @@ class LogIn : AppCompatActivity() {
             if (email.isNotEmpty() && passreg.isNotEmpty() )
             {
 
-                    auth.createUserWithEmailAndPassword(email, passreg).addOnCompleteListener {
+                    auth.signInWithEmailAndPassword(email, passreg).addOnCompleteListener {
                         if (it.isSuccessful)
                         {
                             val intent = Intent(this, PermissionsPage::class.java)
