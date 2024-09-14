@@ -5,16 +5,20 @@ import android.os.Binder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.silentwhisper.databinding.ActivityLogInBinding
+import com.google.firebase.auth.FirebaseAuth
 
 
 lateinit var binder:ActivityLogInBinding
 
 class LogIn : AppCompatActivity() {
+
+    lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_log_in)
         binder = ActivityLogInBinding.inflate(layoutInflater)
         setContentView(binder.root)
+
 
 
 
