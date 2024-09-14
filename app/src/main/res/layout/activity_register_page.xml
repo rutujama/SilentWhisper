@@ -59,6 +59,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                 android:id="@+id/regemail"
                 android:textSize="25dp"
                 android:text="E-mail"
                 android:textColor="@color/white"
@@ -81,6 +82,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/mobnum"
                 android:textSize="25dp"
                 android:text="Phone Number"
                 android:textColor="@color/white"
@@ -100,6 +102,7 @@
 
             </EditText>
             <TextView
+                android:id="@+id/pass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="25dp"
@@ -169,14 +172,14 @@
                 android:layout_marginTop="10dp">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/submitbtn"
-                    android:layout_width="90dp"
+                    android:id="@+id/signinbtn"
+                    android:layout_width="wrap_content"
                     android:layout_height="45dp"
-                    android:background="@drawable/roundeddialog"
-                    android:text="SUBMIT"
-                    android:textSize="15sp"
                     android:layout_gravity="center_horizontal"
-                    android:backgroundTint="@color/inkblue"/>
+                    android:background="@drawable/roundeddialog"
+                    android:backgroundTint="@color/inkblue"
+                    android:text="SUBMIT"
+                    android:textSize="15sp" />
 
             </FrameLayout>
         </LinearLayout>
