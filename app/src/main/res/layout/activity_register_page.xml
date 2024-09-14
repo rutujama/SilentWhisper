@@ -27,7 +27,7 @@
     </TextView>
     <androidx.cardview.widget.CardView
         android:layout_width="300dp"
-        android:layout_height="575dp"
+        android:layout_height="585dp"
         app:cardCornerRadius="15dp"
         android:elevation="5dp"
         android:layout_gravity="center">
@@ -63,7 +63,7 @@
                 android:text="E-mail"
                 android:textColor="@color/white"
                 android:layout_marginLeft="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 >
 
             </TextView>
@@ -82,7 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="25dp"
-                android:text="Mobile Number"
+                android:text="Phone Number"
                 android:textColor="@color/white"
                 android:layout_marginLeft="5dp"
                 android:layout_marginBottom="5dp">
@@ -144,7 +144,8 @@
 
             <FrameLayout
                 android:layout_width="270dp"
-                android:layout_height="wrap_content">
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp">
 
                 <TextView
                     android:id="@+id/existbtn"
