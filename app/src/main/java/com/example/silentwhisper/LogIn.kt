@@ -16,10 +16,7 @@ class LogIn : AppCompatActivity() {
         binder = ActivityLogInBinding.inflate(layoutInflater)
         setContentView(binder.root)
 
-        binder.submitbtn.setOnClickListener {
 
-
-        }
 
 
         binder.newuserbtn.setOnClickListener {
