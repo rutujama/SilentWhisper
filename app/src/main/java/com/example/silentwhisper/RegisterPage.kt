@@ -3,6 +3,7 @@ package com.example.silentwhisper
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.example.silentwhisper.databinding.ActivityRegisterPageBinding
 import com.google.android.material.textfield.TextInputEditText
@@ -34,19 +35,21 @@ class RegisterPage : AppCompatActivity() {
                     auth.createUserWithEmailAndPassword(email, passreg).addOnCompleteListener {
                         if (it.isSuccessful)
                         {
+                            Toast.makeText(this,"Registration Successful",Toast.LENGTH_SHORT).show()
                             val intent = Intent(this, LogIn::class.java)
                             startActivity(intent)
                         }
                         else
                         {
-                            Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+//                            Log.e(it.exception.toString())
+                            Toast.makeText(this,"Error Occurred" , Toast.LENGTH_SHORT).show()
                         }
                     }
 
                 }
                 else
                 {
-                    Toast.makeText(this, "Password not matching", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Password didn't match", Toast.LENGTH_SHORT).show()
                 }
             }
             else
