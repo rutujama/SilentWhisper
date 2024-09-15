@@ -9,7 +9,7 @@
     android:gravity="center">
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button"
+        android:id="@+id/logoutbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="LogOut"
@@ -19,5 +19,6 @@
         app:layout_constraintTop_toTopOf="parent"
         android:backgroundTint="@color/cherryred"
         android:textColor="@color/white"/>
+
 
 </LinearLayout>
