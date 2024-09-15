@@ -9,13 +9,17 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.text.HtmlCompat
 import com.example.silentwhisper.databinding.ActivityPermissionsPageBinding
+import com.google.firebase.auth.FirebaseAuth
 
 lateinit var pBinder:ActivityPermissionsPageBinding
+
 class PermissionsPage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         pBinder=ActivityPermissionsPageBinding.inflate(layoutInflater)
         setContentView(pBinder.root)
+
+
 
         pBinder.acceptbtn.setOnClickListener{
             if(pBinder.checkbox.isChecked) {

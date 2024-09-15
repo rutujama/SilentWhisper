@@ -23,11 +23,20 @@ class LogIn : AppCompatActivity() {
         setContentView(R.layout.activity_log_in)
         binder = ActivityLogInBinding.inflate(layoutInflater)
         setContentView(binder.root)
+
         binder.newuserbtn.setOnClickListener {
             startActivity(Intent(this@LogIn, RegisterPage::class.java))
             finish()
         }
         auth=FirebaseAuth.getInstance()
+
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            Toast.makeText(this,"You are already Logged In ",Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, PermissionsPage::class.java)
+            startActivity(intent)
+            finish()
+        }
 
         binder.loginbtn.setOnClickListener{
             val email = binder.etemail.text.toString()
