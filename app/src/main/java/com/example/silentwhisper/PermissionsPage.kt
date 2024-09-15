@@ -22,8 +22,13 @@ class PermissionsPage : AppCompatActivity() {
 
 
         pBinder.acceptbtn.setOnClickListener{
-            startActivity(Intent(this@PermissionsPage,FriendsPage::class.java))
-            finish()
+            if(pBinder.checkbox.isChecked) {
+                startActivity(Intent(this@PermissionsPage, FriendsPage::class.java))
+                finish()
+            }
+            else{
+                Toast.makeText(this@PermissionsPage,"Please Accept The Policies",Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
