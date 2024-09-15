@@ -1,13 +1,13 @@
 package com.example.silentwhisper
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.silentwhisper.databinding.ActivityFriendsPageBinding
-import com.example.silentwhisper.databinding.ActivityLogInBinding
-import com.example.silentwhisper.databinding.ActivityPermissionsPageBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+
 
 class FriendsPage : AppCompatActivity() {
     lateinit var fbinder: ActivityFriendsPageBinding
@@ -21,6 +21,7 @@ class FriendsPage : AppCompatActivity() {
         setContentView(fbinder.root)
 
         auth= FirebaseAuth.getInstance()
+        val currentUser: FirebaseUser? = auth.getCurrentUser()
 
         fbinder.logoutbtn.setOnClickListener {
 
