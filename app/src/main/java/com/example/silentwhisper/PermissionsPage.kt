@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.text.HtmlCompat
 import com.example.silentwhisper.databinding.ActivityPermissionsPageBinding
 
@@ -17,8 +18,13 @@ class PermissionsPage : AppCompatActivity() {
         setContentView(pBinder.root)
 
         pBinder.acceptbtn.setOnClickListener{
-            startActivity(Intent(this@PermissionsPage,FriendsPage::class.java))
-            finish()
+            if(pBinder.checkbox.isChecked) {
+                startActivity(Intent(this@PermissionsPage, FriendsPage::class.java))
+                finish()
+            }
+            else{
+                Toast.makeText(this@PermissionsPage,"Please Accept The Policies",Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
