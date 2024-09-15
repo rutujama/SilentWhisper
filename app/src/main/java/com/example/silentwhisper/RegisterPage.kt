@@ -3,18 +3,19 @@ package com.example.silentwhisper
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.text.InputType
+import android.view.View
+import android.widget.ImageButton
 import android.widget.Toast
 import com.example.silentwhisper.databinding.ActivityRegisterPageBinding
-import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 
 
 class RegisterPage : AppCompatActivity() {
     lateinit var bind:ActivityRegisterPageBinding
     lateinit var auth:FirebaseAuth
-
-
+    var eyesopen1:Boolean=false
+    var eyesopen2:Boolean=false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bind=ActivityRegisterPageBinding.inflate(layoutInflater)
@@ -57,6 +58,40 @@ class RegisterPage : AppCompatActivity() {
                 Toast.makeText(this, "Empty fields not allowed", Toast.LENGTH_SHORT).show()
             }
         }
+        
+        //PASSWORD HIDE OR SHOW FUNCTIONALITY
+        bind.openeyebtn1.setOnClickListener{
+            passwordhide(it,1)
+        }
+        bind.openeyebtn2.setOnClickListener{
+            passwordhide(it,2)
+        }
 
+    }
+
+    fun passwordhide(view: View,num: Int)
+    {
+        if(num==1) {
+            if (view is ImageButton && eyesopen1 == false) {
+                view.setImageResource(R.drawable.openeye)
+                eyesopen1 = true
+                bind.passbox.inputType=InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            } else if (view is ImageButton && eyesopen1 == true) {
+                view.setImageResource(R.drawable.closeeye)
+                eyesopen1 = false
+                bind.passbox.inputType=InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            }
+        }
+        else{
+            if (view is ImageButton && eyesopen2 == false) {
+                view.setImageResource(R.drawable.openeye)
+                eyesopen2 = true
+                bind.confirmpassbox.inputType=InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            } else if (view is ImageButton && eyesopen2 == true) {
+                view.setImageResource(R.drawable.closeeye)
+                eyesopen2 = false
+                bind.confirmpassbox.inputType=InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            }
+        }
     }
 }
