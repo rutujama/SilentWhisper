@@ -13,7 +13,7 @@ class SplashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
         GlobalScope.launch {
-            delay(3000)
+            delay(2893)
             val intent = Intent(this@SplashScreen, LogIn::class.java)
             startActivity(intent)
             finish()

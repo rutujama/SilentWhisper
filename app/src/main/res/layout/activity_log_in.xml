@@ -72,21 +72,36 @@
             </TextView>
 
 
+            <FrameLayout
+                android:layout_width="280dp"
+                android:layout_height="40dp">
 
-            <EditText
-                android:id="@+id/etpass"
-                android:layout_width="270dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/roundeddialog"
-                android:backgroundTint="@color/white"
-                android:textColor="@color/black"
-                android:padding="6dp"
-                android:layout_marginBottom="8dp">
+                <EditText
+                    android:id="@+id/etpass"
+                    android:layout_width="270dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/roundeddialog"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/black"
+                    android:padding="6dp"
+                    android:layout_marginBottom="8dp"
+                    android:inputType="textPassword">
 
+                </EditText>
 
-            </EditText>
+                <ImageButton
+                    android:id="@+id/eyebtn"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/closeeye"
+                    android:layout_gravity="end|center_vertical"
+                    android:backgroundTint="@color/white"
+                    android:scaleType="centerCrop"
+                    android:layout_marginRight="5dp"/>
+
+            </FrameLayout>
 
 
             <LinearLayout
