@@ -61,19 +61,19 @@ class LogIn : AppCompatActivity() {
 
     }
 
-    fun passwordhide(view: View)
-    {
-        if(view is ImageButton && eyesopen==false)
-        {
+    fun passwordhide(view: View) {
+        val cursorPosition = binder.etpass.selectionStart
+
+        if (view is ImageButton && !eyesopen) {
             view.setImageResource(R.drawable.openeye)
-            eyesopen=true
-            binder.etpass.inputType= InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-        }
-        else if(view is ImageButton && eyesopen==true){
+            eyesopen = true
+            binder.etpass.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        } else if (view is ImageButton && eyesopen) {
             view.setImageResource(R.drawable.closeeye)
-            eyesopen=false
-            binder.etpass.inputType= InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            eyesopen = false
+            binder.etpass.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
         }
+        binder.etpass.setSelection(cursorPosition)
     }
 }
 

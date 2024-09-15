@@ -69,29 +69,35 @@ class RegisterPage : AppCompatActivity() {
 
     }
 
-    fun passwordhide(view: View,num: Int)
-    {
-        if(num==1) {
-            if (view is ImageButton && eyesopen1 == false) {
+    fun passwordhide(view: View, num: Int) {
+        if (num == 1) {
+            val cursorPosition = bind.passbox.selectionStart
+
+            if (view is ImageButton && !eyesopen1) {
                 view.setImageResource(R.drawable.openeye)
                 eyesopen1 = true
-                bind.passbox.inputType=InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-            } else if (view is ImageButton && eyesopen1 == true) {
+                bind.passbox.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            } else if (view is ImageButton && eyesopen1) {
                 view.setImageResource(R.drawable.closeeye)
                 eyesopen1 = false
-                bind.passbox.inputType=InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                bind.passbox.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             }
-        }
-        else{
-            if (view is ImageButton && eyesopen2 == false) {
+            bind.passbox.setSelection(cursorPosition)
+
+        } else {
+            val cursorPosition = bind.confirmpassbox.selectionStart
+
+            if (view is ImageButton && !eyesopen2) {
                 view.setImageResource(R.drawable.openeye)
                 eyesopen2 = true
-                bind.confirmpassbox.inputType=InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-            } else if (view is ImageButton && eyesopen2 == true) {
+                bind.confirmpassbox.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            } else if (view is ImageButton && eyesopen2) {
                 view.setImageResource(R.drawable.closeeye)
                 eyesopen2 = false
-                bind.confirmpassbox.inputType=InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                bind.confirmpassbox.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             }
+            bind.confirmpassbox.setSelection(cursorPosition)
         }
     }
+
 }
