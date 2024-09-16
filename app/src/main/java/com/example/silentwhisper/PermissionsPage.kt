@@ -1,6 +1,8 @@
 package com.example.silentwhisper
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Binder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +14,7 @@ import com.example.silentwhisper.databinding.ActivityPermissionsPageBinding
 import com.google.firebase.auth.FirebaseAuth
 
 lateinit var pBinder:ActivityPermissionsPageBinding
+lateinit var sharedpref:SharedPreferences
 
 class PermissionsPage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,10 +22,12 @@ class PermissionsPage : AppCompatActivity() {
         pBinder=ActivityPermissionsPageBinding.inflate(layoutInflater)
         setContentView(pBinder.root)
 
-
-
+        sharedpref=getSharedPreferences("hasAccepted", Context.MODE_PRIVATE)
         pBinder.acceptbtn.setOnClickListener{
             if(pBinder.checkbox.isChecked) {
+                val sharedflag= sharedpref.edit()
+                sharedflag.putBoolean("Accepted",true)
+                sharedflag.apply()
                 startActivity(Intent(this@PermissionsPage, FriendsPage::class.java))
                 finish()
             }

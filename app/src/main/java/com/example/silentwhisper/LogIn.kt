@@ -1,6 +1,8 @@
 package com.example.silentwhisper
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Binder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +10,8 @@ import android.text.InputType
 import android.view.View
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
 import com.example.silentwhisper.databinding.ActivityLogInBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -18,24 +22,35 @@ class LogIn : AppCompatActivity() {
 
     lateinit var auth: FirebaseAuth
     var eyesopen:Boolean=false
+    lateinit var sharedpref: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_log_in)
         binder = ActivityLogInBinding.inflate(layoutInflater)
         setContentView(binder.root)
-
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Do nothing, back button is disabled
+            }
+        })
+        sharedpref = getSharedPreferences("hasAccepted", Context.MODE_PRIVATE)
         binder.newuserbtn.setOnClickListener {
             startActivity(Intent(this@LogIn, RegisterPage::class.java))
-            finish()
         }
         auth=FirebaseAuth.getInstance()
 
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            Toast.makeText(this,"You are already Logged In ",Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, PermissionsPage::class.java)
-            startActivity(intent)
-            finish()
+            val sharedflag= sharedpref.getBoolean("Accepted",false)
+            if(!sharedflag) {
+                val intent = Intent(this, PermissionsPage::class.java)
+                startActivity(intent)
+                finish()
+            }
+            else{
+                val intent=Intent(this@LogIn,FriendsPage::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
 
         binder.loginbtn.setOnClickListener{
@@ -48,8 +63,9 @@ class LogIn : AppCompatActivity() {
                     auth.signInWithEmailAndPassword(email, passreg).addOnCompleteListener {
                         if (it.isSuccessful)
                         {
-                            val intent = Intent(this, PermissionsPage::class.java)
-                            startActivity(intent)
+                                val intent = Intent(this, PermissionsPage::class.java)
+                                startActivity(intent)
+                                finish()
                         }
                         else
                         {
