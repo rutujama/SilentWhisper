@@ -6,7 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".FriendsPage"
     android:background="@color/royalblue"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
+    
+    <TextView
+        android:id="@+id/hibox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="trial text"
+        android:textSize="30dp"
+        >
+
+    </TextView>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/logoutbtn"
