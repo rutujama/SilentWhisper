@@ -28,13 +28,13 @@ class FriendsPage : AppCompatActivity() {
         fbinder= ActivityFriendsPageBinding.inflate(layoutInflater)
         setContentView(fbinder.root)
         sharedpref = getSharedPreferences("hasAccepted", Context.MODE_PRIVATE)
+        val cUser = FirebaseAuth.getInstance().currentUser
+        auth=FirebaseAuth.getInstance()
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // Do nothing, back button is disabled
             }
         })
-        val cUser = FirebaseAuth.getInstance().currentUser
-        auth=FirebaseAuth.getInstance()
         if (cUser != null) {
             setUsername(cUser)
         }
@@ -48,6 +48,9 @@ class FriendsPage : AppCompatActivity() {
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             Toast.makeText(this,"You have been Logged Out ", Toast.LENGTH_SHORT).show()
             finish()
+        }
+        fbinder.myprofilebtn.setOnClickListener{
+            startActivity(Intent(this@FriendsPage,MyProfile::class.java))
         }
     }
     fun setUsername(cUser: FirebaseUser) {
@@ -78,5 +81,7 @@ class FriendsPage : AppCompatActivity() {
             Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
         }
     }
+
+
 
 }
