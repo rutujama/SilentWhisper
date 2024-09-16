@@ -21,7 +21,6 @@ class FriendsPage : AppCompatActivity() {
     lateinit var fbinder: ActivityFriendsPageBinding
     lateinit var auth: FirebaseAuth
     lateinit var sharedpref: SharedPreferences
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
@@ -34,55 +33,9 @@ class FriendsPage : AppCompatActivity() {
             }
         })
         val cUser = FirebaseAuth.getInstance().currentUser
-
         if (cUser != null) {
-            val userId = cUser.uid // Get the current user's UID
-
-            // Reference to the Firestore document
-            val db = FirebaseFirestore.getInstance()
-
-            db.collection("users").document(userId).get()
-                .addOnSuccessListener { document ->
-                    if (document != null && document.exists()) {
-                        // Fetch the phone number from the document
-                        val phoneNumber = document.getString("MobileNum")
-                        if (phoneNumber != null) {
-                            Toast.makeText(this, "Phone Number: $phoneNumber", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(this, "Phone number not found", Toast.LENGTH_SHORT).show()
-                        }
-                    } else {
-                        Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    Toast.makeText(this, "Error fetching data: ${exception.message}", Toast.LENGTH_SHORT).show()
-                }
-        } else {
-            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+            setUsername(cUser)
         }
-
-
-        auth= FirebaseAuth.getInstance()
-        val currentUser: FirebaseUser? = auth.getCurrentUser()
-        sharedpref=getSharedPreferences("hasAccepted", Context.MODE_PRIVATE)
-        val db = Firebase.firestore
-        db.collection("users")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val email = document.getString("email") // Access the email field
-                    if (email != null) {
-                        Toast.makeText(this, email, Toast.LENGTH_SHORT).show() // Display email as toast
-                    } else {
-                        Log.d(TAG, "Email field is null in document: ${document.id}")
-                    }
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting documents.", exception)
-            }
-
         fbinder.logoutbtn.setOnClickListener {
             val sharedflag= sharedpref.edit()
             sharedflag.putBoolean("Accepted",false)
@@ -95,4 +48,33 @@ class FriendsPage : AppCompatActivity() {
             finish()
         }
     }
+    fun setUsername(cUser: FirebaseUser) {
+        if (cUser != null) {
+            val userId = cUser.uid // Get the current user's UID
+
+            // Reference to the Firestore document
+            val db = FirebaseFirestore.getInstance()
+
+            db.collection("users").document(userId).get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        // Fetch the username from the document
+                        val username = document.getString("username") // Update this to the correct field name
+                        if (username != null) {
+                            fbinder.hibox.setText("Hey $username") // Update this to match the UI element
+                        } else {
+                            Toast.makeText(this, "Username not found", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Toast.makeText(this, "Error fetching data: ${exception.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 }
