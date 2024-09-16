@@ -13,8 +13,13 @@
         android:theme="@style/Theme.SilentWhisper"
         tools:targetApi="31">
         <activity
+            android:name=".MyProfile"
+            android:exported="false" >
+        </activity>
+       <activity
             android:name=".updateInfo"
-            android:exported="false" />
+    android:exported="false" />
+
         <activity
             android:name=".FriendsPage"
             android:exported="false" />
