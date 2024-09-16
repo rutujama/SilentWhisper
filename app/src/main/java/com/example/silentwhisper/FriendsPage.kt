@@ -27,12 +27,14 @@ class FriendsPage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         fbinder= ActivityFriendsPageBinding.inflate(layoutInflater)
         setContentView(fbinder.root)
+        sharedpref = getSharedPreferences("hasAccepted", Context.MODE_PRIVATE)
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // Do nothing, back button is disabled
             }
         })
         val cUser = FirebaseAuth.getInstance().currentUser
+        auth=FirebaseAuth.getInstance()
         if (cUser != null) {
             setUsername(cUser)
         }
