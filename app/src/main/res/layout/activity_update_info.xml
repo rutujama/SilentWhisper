@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".updateInfo"
+    android:background="@drawable/purplegradbg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_marginTop="130dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Let's Get Started"
+        android:textStyle="bold"
+        android:textSize="40dp"
+        android:textColor="@color/white">
+
+    </TextView>
+    <FrameLayout
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="10dp">
+    <ImageView
+        android:id="@+id/newdp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:src="@drawable/swlogo"
+        android:background="@drawable/roundeddialog"
+        android:backgroundTint="@color/black"
+        android:layout_gravity="center">
+    </ImageView>
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/pencil"
+        android:scaleType="centerCrop"
+        android:backgroundTint="#00000000">
+
+    </androidx.appcompat.widget.AppCompatImageButton>
+
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:text="Username"
+        android:textColor="@color/white"
+        android:layout_marginBottom="10dp">
+
+    </TextView>
+    <EditText
+        android:id="@+id/new_username"
+        android:layout_width="270dp"
+        android:layout_height="40dp"
+        android:background="@drawable/roundeddialog"
+        android:backgroundTint="@color/white"
+        android:layout_marginBottom="20dp"
+        android:padding="6dp"
+        android:textColor="@color/black"
+        android:hint="Enter A New Username"
+        android:textColorHint="@color/darkgrey">
+
+    </EditText>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:text="Phone Number"
+        android:textColor="@color/white"
+        android:layout_marginBottom="10dp">
+
+    </TextView>
+    <EditText
+        android:id="@+id/phone_number"
+        android:layout_width="270dp"
+        android:layout_height="40dp"
+        android:background="@drawable/roundeddialog"
+        android:backgroundTint="@color/white"
+        android:layout_marginBottom="15dp"
+        android:padding="6dp"
+        android:textColor="@color/black"
+        android:clickable="false">
+
+    </EditText>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/savebtn"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/roundeddialog"
+        android:backgroundTint="@color/inkblue"
+        android:text="Save"
+        android:layout_marginTop="20dp"
+        android:textSize="15sp" />
+
+
+
+</LinearLayout>

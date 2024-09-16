@@ -1,14 +1,19 @@
 package com.example.silentwhisper
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.Toast
 import com.example.silentwhisper.databinding.ActivityRegisterPageBinding
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 
 
 class RegisterPage : AppCompatActivity() {
@@ -26,6 +31,7 @@ class RegisterPage : AppCompatActivity() {
         }
         auth=FirebaseAuth.getInstance()
         bind.signinbtn.setOnClickListener{
+            bind.signinbtn.isClickable=false
             val email = bind.emailbox.text.toString()
             val passreg = bind.passbox.text.toString()
             val confirmpass = bind.confirmpassbox.text.toString()
@@ -36,7 +42,18 @@ class RegisterPage : AppCompatActivity() {
                     auth.createUserWithEmailAndPassword(email, passreg).addOnCompleteListener {
                         if (it.isSuccessful)
                         {
+                            val currentUser=FirebaseAuth.getInstance().currentUser
+                            if (currentUser != null) {
+                                val userId = currentUser.uid
+                                val db = FirebaseFirestore.getInstance()
+                                val user = hashMapOf(
+                                    "Email" to bind.emailbox.text.toString(),
+                                    "MobileNum" to bind.mobilenumbox.text.toString()
+                                )
+                                db.collection("users").document(userId).set(user)
+                            }
                             Toast.makeText(this,"Registration Successful",Toast.LENGTH_SHORT).show()
+                            bind.signinbtn.isClickable=true
                             val intent = Intent(this, LogIn::class.java)
                             startActivity(intent)
                         }
@@ -44,6 +61,7 @@ class RegisterPage : AppCompatActivity() {
                         {
 //                            Log.e(it.exception.toString())
                             Toast.makeText(this,"Error Occurred" , Toast.LENGTH_SHORT).show()
+                            bind.signinbtn.isClickable=true
                         }
                     }
 
@@ -51,12 +69,14 @@ class RegisterPage : AppCompatActivity() {
                 else
                 {
                     Toast.makeText(this, "Password didn't match", Toast.LENGTH_SHORT).show()
+                    bind.signinbtn.isClickable=true
                 }
             }
             else
             {
                 Toast.makeText(this, "Empty fields not allowed", Toast.LENGTH_SHORT).show()
             }
+
         }
         
         //PASSWORD HIDE OR SHOW FUNCTIONALITY
