@@ -5,6 +5,8 @@
     <color name="royalblue">#1F1544</color>
     <color name="cherryred">#ff0c57</color>
     <color name="inkblue">#561bd6</color>
-    <color name="darkgrey">#656060</color>
+    <color name="darkgrey">#2C2B2B</color>
     <color name="darkbrown">#231201</color>
+    <color name="olive">#499017</color>
+    <color name="lightgrey">#767A74</color>
 </resources>

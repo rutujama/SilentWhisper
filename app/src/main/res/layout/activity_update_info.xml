@@ -13,7 +13,7 @@
         android:layout_marginTop="130dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Let's Get Started"
+        android:text="Let's Tweak it Up!"
         android:textStyle="bold"
         android:textSize="40dp"
         android:textColor="@color/white">
@@ -49,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="25dp"
-        android:text="Username"
+        android:text="Update Username"
         android:textColor="@color/white"
         android:layout_marginBottom="10dp">
 
@@ -72,7 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="25dp"
-        android:text="Phone Number"
+        android:text="Mobile Number"
         android:textColor="@color/white"
         android:layout_marginBottom="10dp">
 
@@ -85,10 +85,13 @@
         android:backgroundTint="@color/white"
         android:layout_marginBottom="15dp"
         android:padding="6dp"
-        android:textColor="@color/black"
-        android:clickable="false">
-
-    </EditText>
+        android:textColor="@color/lightgrey"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:inputType="none"
+        android:enabled="false"
+        android:hint="No Number"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/savebtn"

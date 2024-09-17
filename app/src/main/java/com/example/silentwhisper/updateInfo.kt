@@ -21,21 +21,59 @@ class updateInfo : AppCompatActivity() {
         val curruser=FirebaseAuth.getInstance().currentUser
         if (curruser != null) {
             setnumber(curruser)
+            setUsername(curruser)
         }
         ubind.savebtn.setOnClickListener{
-            if (curruser != null) {
-                val userId = curruser.uid
-                val db = FirebaseFirestore.getInstance()
-                val userUpdate = hashMapOf(
-                    "username" to ubind.newUsername.text.toString()
-                )
-                db.collection("users").document(userId).update(userUpdate as Map<String, Any>)
+            ubind.savebtn.isClickable=false
+            if(!ubind.newUsername.text.toString().isEmpty()) {
+                if (curruser != null) {
+                    val userId = curruser.uid
+                    val db = FirebaseFirestore.getInstance()
+                    val userUpdate = hashMapOf(
+                        "username" to ubind.newUsername.text.toString(),
+                    )
+                    db.collection("users").document(userId).update(userUpdate as Map<String, Any>)
+                }
+                ubind.savebtn.isClickable=true
+                startActivity(Intent(this@updateInfo, FriendsPage::class.java))
+                finish()
             }
-            startActivity(Intent(this@updateInfo,FriendsPage::class.java))
-            finish()
+            else{
+                ubind.savebtn.isClickable=false
+                Toast.makeText(this@updateInfo,"Name Can't Be Empty",Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
+
+    fun setUsername(cUser: FirebaseUser) {
+        if (cUser != null) {
+            val userId = cUser.uid // Get the current user's UID
+
+            // Reference to the Firestore document
+            val db = FirebaseFirestore.getInstance()
+
+            db.collection("users").document(userId).get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        // Fetch the username from the document
+                        val username = document.getString("username") // Update this to the correct field name
+                        if (username != null) {
+                            ubind.newUsername.setText(username) // Update this to match the UI element
+                        } else {
+                            Toast.makeText(this, "Username not found", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Toast.makeText(this, "Error fetching data: ${exception.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+        }
+    }
     fun setnumber(cUser:FirebaseUser)
     {
         if (cUser != null) {

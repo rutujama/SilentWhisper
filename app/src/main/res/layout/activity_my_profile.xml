@@ -7,34 +7,43 @@
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".MyProfile"
-    android:background="@color/royalblue">
+    android:background="@color/black">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:orientation="horizontal"
-        android:background="@color/inkblue"
-    android:padding="16dp"
-        >
+        android:background="@drawable/roundeddialog"
+        android:backgroundTint="@color/inkblue"
+        android:padding="10dp"
+        android:gravity="center">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/backbtn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="start"
+            android:background="@drawable/circleicon"
+            android:src="@drawable/backarrow">
+
+        </androidx.appcompat.widget.AppCompatImageButton>
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/swlogo"
-        android:scaleType="centerCrop"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/circleicon"
+            android:scaleType="centerCrop"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/circleicon"
             android:backgroundTint="@color/black"
-            android:layout_marginRight="10dp"
-            />
+            android:layout_marginRight="10dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:orientation="vertical"
             android:padding="5dp"
-            android:layout_gravity="bottom"
-            >
+            android:gravity="center">
 
 
             <TextView
@@ -42,22 +51,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:paddingLeft="30dp"
+
                 android:text="User Profile"
                 android:textColor="#FFFFFF"
                 android:textSize="35dp"
-                android:textStyle="bold"
-                android:layout_marginBottom="20dp"/>
+                android:textStyle="bold" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="101dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:backgroundTint="@color/cherryred"
-                android:text="Edit"
-                android:textColor="@color/white">
 
-            </androidx.appcompat.widget.AppCompatButton>
         </LinearLayout>
 
     </LinearLayout>
@@ -65,7 +65,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -78,13 +78,45 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="16dp"
-                android:weightSum="2">
+                android:weightSum="2"
+                android:background="@drawable/roundeddialog"
+                android:backgroundTint="@color/darkgrey"
+                android:padding="7dp">
 
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:text="Username"
+                    android:textSize="20dp"
+                    android:textColor="@color/white"/>
+
+
+                <TextView
+                    android:id="@+id/usernamesection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="abc"
+                    android:textSize="17dp"
+                    android:textColor="@color/white"
+                    android:paddingStart="10dp"
+                    android:textAlignment="textEnd"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:weightSum="2"
+                android:background="@drawable/roundeddialog"
+                android:backgroundTint="@color/darkgrey"
+                android:padding="7dp">
+
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
                     android:text="Email"
                     android:textSize="20dp"
                     android:textColor="@color/white"/>
@@ -92,11 +124,10 @@
 
                 <TextView
                     android:id="@+id/tvEmail"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="abc"
-                    android:textSize="20dp"
+                    android:textSize="17dp"
                     android:textColor="@color/white"
                     android:textAlignment="textEnd"
                     android:paddingStart="10dp"/>
@@ -108,70 +139,63 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="16dp"
-                android:weightSum="2">
+                android:weightSum="2"
+                android:background="@drawable/roundeddialog"
+                android:backgroundTint="@color/darkgrey"
+                android:padding="7dp">
 
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="140dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Phone Number"
+                    android:text="Mobile Number"
                     android:textSize="20dp"
                     android:textColor="@color/white"/>
 
 
                 <TextView
-                    android:id="@+id/tvPhoneNumber"
-                    android:layout_width="0dp"
+                    android:id="@+id/phonenumbersection"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="123"
-                    android:textSize="20dp"
+                    android:textSize="17dp"
                     android:textColor="@color/white"
                     android:paddingStart="10dp"
                     android:textAlignment="textEnd"/>
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:orientation="horizontal"
-                android:layout_marginTop="16dp"
-                android:weightSum="2">
+                android:gravity="center"
+                android:layout_marginTop="25dp">
 
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Username"
-                    android:textSize="20dp"
-                    android:textColor="@color/white"/>
-
-
-                <TextView
-                    android:id="@+id/tvUsername"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="abc"
-                    android:textSize="20dp"
-                    android:textColor="@color/white"
-                    android:paddingStart="10dp"
-                    android:textAlignment="textEnd"/>
-            </LinearLayout>
-
-
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnLogout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="center_vertical"
                 android:text="Logout"
-                android:layout_marginTop="24dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/roundeddialog"
                 android:backgroundTint="@color/cherryred"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#FFFFFF">
+
+            </androidx.appcompat.widget.AppCompatButton>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/editbtn"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Edit"
+                    android:background="@drawable/roundeddialog"
+                    android:backgroundTint="@color/cherryred"
+                    android:textColor="#FFFFFF">
+
+                </androidx.appcompat.widget.AppCompatButton>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
