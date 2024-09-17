@@ -27,6 +27,8 @@ class FriendsPage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         fbinder= ActivityFriendsPageBinding.inflate(layoutInflater)
         setContentView(fbinder.root)
+        sharedpref = getSharedPreferences("hasAccepted", Context.MODE_PRIVATE)
+        auth=FirebaseAuth.getInstance()
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // Do nothing, back button is disabled
