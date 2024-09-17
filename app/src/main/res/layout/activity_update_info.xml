@@ -4,106 +4,85 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".updateInfo"
-    android:background="@drawable/purplegradbg"
+    android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:padding="20dp"
+    android:background="@color/inkblue"
+    tools:context=".updateInfo">
 
     <TextView
-        android:layout_marginTop="130dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Let's Tweak it Up!"
         android:textStyle="bold"
-        android:textSize="40dp"
-        android:textColor="@color/white">
+        android:textSize="32sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="20dp"/>
 
-    </TextView>
+    <!-- Profile Picture Frame -->
     <FrameLayout
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="10dp">
-    <ImageView
-        android:id="@+id/newdp"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:src="@drawable/swlogo"
-        android:background="@drawable/roundeddialog"
-        android:backgroundTint="@color/black"
+        android:layout_width="145dp"
+        android:layout_height="145dp"
+        android:layout_marginBottom="20dp"
+        android:elevation="4dp"
         android:layout_gravity="center">
-    </ImageView>
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_gravity="bottom|end"
-        android:src="@drawable/pencil"
-        android:scaleType="centerCrop"
-        android:backgroundTint="#00000000">
 
-    </androidx.appcompat.widget.AppCompatImageButton>
+        <!-- Profile Picture -->
+        <ImageView
+            android:id="@+id/newdp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:src="@drawable/swlogo"
+            android:background="@drawable/circleicon"
+            android:backgroundTint="@color/black"
+            android:layout_gravity="center"
+            android:elevation="2dp"/>
 
+        <!-- Edit Button on Picture -->
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom|end"
+            android:src="@drawable/plusicon"
+            android:background="@drawable/circleicon"
+            android:scaleType="centerCrop"
+            android:elevation="6dp"/>
     </FrameLayout>
 
+    <!-- Username Text Label -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
-        android:text="Update Username"
+        android:text="Username"
+        android:textSize="22sp"
         android:textColor="@color/white"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"/>
 
-    </TextView>
+    <!-- Username Input Field -->
     <EditText
         android:id="@+id/new_username"
-        android:layout_width="270dp"
-        android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
         android:background="@drawable/roundeddialog"
         android:backgroundTint="@color/white"
-        android:layout_marginBottom="20dp"
-        android:padding="6dp"
         android:textColor="@color/black"
         android:hint="Enter A New Username"
-        android:textColorHint="@color/darkgrey">
+        android:textColorHint="@color/darkgrey"
+        android:padding="10dp"
+        android:layout_marginBottom="30dp"/>
 
-    </EditText>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="25dp"
-        android:text="Mobile Number"
-        android:textColor="@color/white"
-        android:layout_marginBottom="10dp">
-
-    </TextView>
-    <EditText
-        android:id="@+id/phone_number"
-        android:layout_width="270dp"
-        android:layout_height="40dp"
-        android:background="@drawable/roundeddialog"
-        android:backgroundTint="@color/white"
-        android:layout_marginBottom="15dp"
-        android:padding="6dp"
-        android:textColor="@color/lightgrey"
-        android:clickable="false"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:inputType="none"
-        android:enabled="false"
-        android:hint="No Number"/>
-
+    <!-- Save Button -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/savebtn"
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:background="@drawable/roundeddialog"
-        android:backgroundTint="@color/inkblue"
+        android:backgroundTint="@color/lightgreen"
         android:text="Save"
-        android:layout_marginTop="20dp"
-        android:textSize="15sp" />
-
-
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:elevation="6dp"
+        android:layout_marginBottom="20dp"/>
 
 </LinearLayout>
