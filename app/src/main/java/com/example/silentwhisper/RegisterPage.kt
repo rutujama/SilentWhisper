@@ -14,6 +14,13 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import org.json.JSONObject
+import java.io.IOException
 
 
 class RegisterPage : AppCompatActivity() {
@@ -21,6 +28,7 @@ class RegisterPage : AppCompatActivity() {
     lateinit var auth:FirebaseAuth
     var eyesopen1:Boolean=false
     var eyesopen2:Boolean=false
+    var allotted_username:String="Random_Guy"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bind=ActivityRegisterPageBinding.inflate(layoutInflater)
@@ -42,13 +50,15 @@ class RegisterPage : AppCompatActivity() {
                     auth.createUserWithEmailAndPassword(email, passreg).addOnCompleteListener {
                         if (it.isSuccessful)
                         {
+                            getAnonName()
                             val currentUser=FirebaseAuth.getInstance().currentUser
                             if (currentUser != null) {
                                 val userId = currentUser.uid
                                 val db = FirebaseFirestore.getInstance()
                                 val user = hashMapOf(
                                     "Email" to bind.emailbox.text.toString(),
-                                    "MobileNum" to bind.mobilenumbox.text.toString()
+                                    "MobileNum" to bind.mobilenumbox.text.toString(),
+                                    "anonusername" to allotted_username
                                 )
                                 db.collection("users").document(userId).set(user)
                             }
@@ -89,6 +99,29 @@ class RegisterPage : AppCompatActivity() {
 
     }
 
+    fun getAnonName()
+    {
+        val client= OkHttpClient()
+        val url="https://usernameapiv1.vercel.app/api/random-usernames"
+        val request= Request.Builder().url(url).build()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Toast.makeText(this@RegisterPage,"Error Fetching Username",Toast.LENGTH_SHORT)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if(response.isSuccessful){
+                    response.body?.let { responseBody ->
+                        val jsonObject = JSONObject(responseBody.string())
+                        val usernamesArray = jsonObject.getJSONArray("usernames")
+                        val randomUsername = usernamesArray.getString(0)
+                        allotted_username=randomUsername
+                    }
+                }
+            }
+
+        })
+    }
     fun passwordhide(view: View, num: Int) {
         if (num == 1) {
             val cursorPosition = bind.passbox.selectionStart
