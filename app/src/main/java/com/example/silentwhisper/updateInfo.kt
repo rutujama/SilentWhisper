@@ -38,6 +38,7 @@ class updateInfo : AppCompatActivity() {
 
     lateinit var ubind : ActivityUpdateInfoBinding
     private lateinit var imageUri : Uri
+
     private val contract=registerForActivityResult(ActivityResultContracts.GetContent())
     {
         findViewById<ImageView>(R.id.newdp).setImageURI(it)

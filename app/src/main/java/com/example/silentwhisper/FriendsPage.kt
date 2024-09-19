@@ -28,7 +28,7 @@ class FriendsPage : AppCompatActivity() {
     lateinit var fbinder: ActivityFriendsPageBinding
     lateinit var auth: FirebaseAuth
     lateinit var sharedpref: SharedPreferences
-    lateinit var userAdapter: UserAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -36,7 +36,6 @@ class FriendsPage : AppCompatActivity() {
         setContentView(fbinder.root)
         sharedpref = getSharedPreferences("hasAccepted", Context.MODE_PRIVATE)
          val userList = ArrayList<FirebaseUser>()
-        userAdapter = UserAdapter(this, userList)
 
 
 
