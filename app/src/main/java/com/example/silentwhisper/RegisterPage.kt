@@ -1,7 +1,12 @@
 package com.example.silentwhisper
 
+import android.app.Dialog
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
@@ -39,53 +44,57 @@ class RegisterPage : AppCompatActivity() {
         }
         auth=FirebaseAuth.getInstance()
         bind.signinbtn.setOnClickListener{
-            bind.signinbtn.isClickable=false
-            val email = bind.emailbox.text.toString()
-            val passreg = bind.passbox.text.toString()
-            val confirmpass = bind.confirmpassbox.text.toString()
-            if (email.isNotEmpty() && passreg.isNotEmpty() && confirmpass.isNotEmpty())
-            {
-                if (passreg == confirmpass)
-                {
-                    auth.createUserWithEmailAndPassword(email, passreg).addOnCompleteListener {
-                        if (it.isSuccessful)
-                        {
-                            getAnonName()
-                            val currentUser=FirebaseAuth.getInstance().currentUser
-                            if (currentUser != null) {
-                                val userId = currentUser.uid
-                                val db = FirebaseFirestore.getInstance()
-                                val user = hashMapOf(
-                                    "Email" to bind.emailbox.text.toString(),
-                                    "MobileNum" to bind.mobilenumbox.text.toString(),
-                                    "anonusername" to allotted_username,
-                                    "profilePic" to "gs://silentwhisperdb.appspot.com/profilePic/swlogo.png"
-                                )
-                                db.collection("users").document(userId).set(user)
+            if(isInternetAvailable(this)) {
+                bind.signinbtn.isClickable = false
+                val email = bind.emailbox.text.toString()
+                val passreg = bind.passbox.text.toString()
+                val confirmpass = bind.confirmpassbox.text.toString()
+                if (email.isNotEmpty() && passreg.isNotEmpty() && confirmpass.isNotEmpty()) {
+                    if (passreg == confirmpass) {
+                        val loadingDialog = Dialog(this)
+                        loadingDialog.setContentView(R.layout.loadingscreen)
+                        loadingDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                        loadingDialog.setCancelable(false)
+                        loadingDialog.show()
+                        auth.createUserWithEmailAndPassword(email, passreg).addOnCompleteListener {
+                            loadingDialog.dismiss()
+                            if (it.isSuccessful) {
+                                getAnonName()
+                                val currentUser = FirebaseAuth.getInstance().currentUser
+                                if (currentUser != null) {
+                                    val userId = currentUser.uid
+                                    val db = FirebaseFirestore.getInstance()
+                                    val user = hashMapOf(
+                                        "Email" to bind.emailbox.text.toString(),
+                                        "MobileNum" to bind.mobilenumbox.text.toString(),
+                                        "anonusername" to allotted_username,
+                                        "profilePic" to "gs://silentwhisperdb.appspot.com/profilePic/swlogo.png"
+                                    )
+                                    db.collection("users").document(userId).set(user)
+                                }
+                                Toast.makeText(this, "Registration Successful", Toast.LENGTH_SHORT)
+                                    .show()
+                                bind.signinbtn.isClickable = true
+                                val intent = Intent(this, LogIn::class.java)
+                                startActivity(intent)
+                            } else {
+                                Log.e("TAG", it.exception.toString())
+                                Toast.makeText(this, "Error Occurred", Toast.LENGTH_SHORT).show()
+                                bind.signinbtn.isClickable = true
                             }
-                            Toast.makeText(this,"Registration Successful",Toast.LENGTH_SHORT).show()
-                            bind.signinbtn.isClickable=true
-                            val intent = Intent(this, LogIn::class.java)
-                            startActivity(intent)
                         }
-                        else
-                        {
-//                            Log.e(it.exception.toString())
-                            Toast.makeText(this,"Error Occurred" , Toast.LENGTH_SHORT).show()
-                            bind.signinbtn.isClickable=true
-                        }
-                    }
 
-                }
-                else
-                {
-                    Toast.makeText(this, "Password didn't match", Toast.LENGTH_SHORT).show()
-                    bind.signinbtn.isClickable=true
+                    } else {
+                        Toast.makeText(this, "Password didn't match", Toast.LENGTH_SHORT).show()
+                        bind.signinbtn.isClickable = true
+                    }
+                } else {
+                    Toast.makeText(this, "Empty fields not allowed", Toast.LENGTH_SHORT).show()
                 }
             }
-            else
-            {
-                Toast.makeText(this, "Empty fields not allowed", Toast.LENGTH_SHORT).show()
+            else{
+                Toast.makeText(this, "Please Check Your Internet Connection!", Toast.LENGTH_SHORT)
+                    .show()
             }
 
         }
@@ -99,6 +108,22 @@ class RegisterPage : AppCompatActivity() {
         }
 
     }
+
+
+    fun isInternetAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork ?: return false
+            val networkCapabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+            return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                    networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+        } else {
+            @Suppress("DEPRECATION")
+            val activeNetworkInfo = connectivityManager.activeNetworkInfo
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected
+        }
+    }
+
 
     fun getAnonName()
     {
