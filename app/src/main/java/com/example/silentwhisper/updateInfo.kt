@@ -16,11 +16,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.bumptech.glide.Glide
 import com.example.silentwhisper.databinding.ActivityUpdateInfoBinding
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.FirebaseStorage
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -35,10 +38,12 @@ class updateInfo : AppCompatActivity() {
 
     lateinit var ubind : ActivityUpdateInfoBinding
     private lateinit var imageUri : Uri
-    private lateinit var shareuri : Uri
     private val contract=registerForActivityResult(ActivityResultContracts.GetContent())
     {
         findViewById<ImageView>(R.id.newdp).setImageURI(it)
+        if (it != null) {
+            imageUri=it
+        }
     }
     private val camContract=registerForActivityResult(ActivityResultContracts.TakePicture())
     {
@@ -49,6 +54,7 @@ class updateInfo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         ubind= ActivityUpdateInfoBinding.inflate(layoutInflater)
         setContentView(ubind.root)
+        imageUri=createImageUri()
         val curruser=FirebaseAuth.getInstance().currentUser
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -57,10 +63,12 @@ class updateInfo : AppCompatActivity() {
         if (curruser != null) {
             setUsername(curruser)
             setAnonUsername(curruser)
+            setProfilePicture(curruser)
         }
         ubind.savebtn.setOnClickListener{
             ubind.savebtn.isClickable=false
             if(!ubind.newUsername.text.toString().isEmpty()) {
+                    uploadtoFirestore(imageUri)
                 if (curruser != null) {
                     val userId = curruser.uid
                     val db = FirebaseFirestore.getInstance()
@@ -89,7 +97,6 @@ class updateInfo : AppCompatActivity() {
                 dialog.setContentView(R.layout.activity_dp_dialog)
                 dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 dialog.findViewById<LinearLayout>(R.id.camerabox).setOnClickListener {
-                    imageUri=createImageUri()
                     camContract.launch(imageUri)
                     dialog.dismiss()
                 }
@@ -106,6 +113,32 @@ class updateInfo : AppCompatActivity() {
     }
 
 
+    fun uploadtoFirestore(photoUri: Uri){
+        val curruser=FirebaseAuth.getInstance().currentUser
+        val currUserId= curruser?.uid
+        val photoRef=FirebaseStorage.getInstance()
+            .reference
+            .child("profilePic/"+currUserId)
+        photoRef.putFile(photoUri)
+            .addOnSuccessListener {
+                photoRef.downloadUrl.addOnSuccessListener {
+                    postToFirestore(it.toString())
+                }
+            }
+    }
+
+    fun postToFirestore(url: String)
+    {
+        val curruser=FirebaseAuth.getInstance().currentUser
+        if (curruser != null) {
+            val userId = curruser.uid
+            val db = FirebaseFirestore.getInstance()
+            val userUpdate = hashMapOf(
+                "profilePic" to url
+            )
+            db.collection("users").document(userId).update(userUpdate as Map<String, Any>)
+        }
+    }
     private fun createImageUri():Uri{
         val image = File(filesDir,"SilentWhisper"+System.currentTimeMillis()/1000+".png")
         return FileProvider.getUriForFile(this,
@@ -145,6 +178,43 @@ class updateInfo : AppCompatActivity() {
         }
     }
 
+
+
+    fun setProfilePicture(cUser: FirebaseUser) {
+        if (cUser != null) {
+            val userId = cUser.uid // Get the current user's UID
+
+            // Reference to the Firestore document
+            val db = FirebaseFirestore.getInstance()
+
+            db.collection("users").document(userId).get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        // Fetch the profile picture URL from the document
+                        val profilePicUrl = document.getString("profilePic") // Fetch profile picture URL from "profilePic" field
+
+                        if (profilePicUrl != null) {
+                            // Assuming you are using Glide to load the image into an ImageView (e.g., ubind.profileImageView)
+                            Glide.with(this)
+                                .load(profilePicUrl)
+                                .placeholder(R.drawable.swlogo) // Placeholder image
+                                .error(R.drawable.swlogo)         // Error image
+                                .into(ubind.newdp)                // Update with your ImageView
+
+                        } else {
+                            Toast.makeText(this, "Profile picture not found", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Toast.makeText(this, "Error fetching profile picture: ${exception.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     fun setAnonUsername(cUser: FirebaseUser) {
         if (cUser != null) {
