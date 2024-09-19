@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:background="@drawable/roundeddialog"
+    android:backgroundTint="@color/royalblue"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:gravity="center">
+
+
+    <EditText
+        android:id="@+id/email_edit_text"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter your email"
+        android:inputType="textEmailAddress"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:padding="12dp"
+        android:layout_marginBottom="20dp"/>
+
+    <!-- Reset Password TextView (Clickable) -->
+    <TextView
+        android:id="@+id/reset_password_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset Password"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp"
+        android:background="@color/inkblue" />
+
+</LinearLayout>

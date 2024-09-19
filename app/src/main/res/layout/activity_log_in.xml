@@ -124,6 +124,7 @@
 
                 </TextView>
                 <TextView
+                    android:id="@+id/forgotpass"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Forgot Password"
@@ -133,7 +134,6 @@
                     android:layout_gravity="right"
                     android:clickable="true"
                     android:focusable="true">
-
                 </TextView>
             </LinearLayout>
             <androidx.appcompat.widget.AppCompatButton

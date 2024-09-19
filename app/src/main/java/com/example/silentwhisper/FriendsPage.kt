@@ -73,7 +73,7 @@ class FriendsPage : AppCompatActivity() {
                         // Fetch the username from the document
                         val username = document.getString("username") // Update this to the correct field name
                         if (username != null) {
-                            fbinder.fname.setText("Hey $username") // Update this to match the UI element
+                            fbinder.hibox.setText("Hey $username") // Update this to match the UI element
                         } else {
                             Toast.makeText(this, "Username not found", Toast.LENGTH_SHORT).show()
                         }
