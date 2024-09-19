@@ -40,6 +40,9 @@ class updateInfo : AppCompatActivity() {
     private val contract=registerForActivityResult(ActivityResultContracts.GetContent())
     {
         findViewById<ImageView>(R.id.newdp).setImageURI(it)
+        if (it != null) {
+            imageUri=it
+        }
     }
     private val camContract=registerForActivityResult(ActivityResultContracts.TakePicture())
     {
@@ -50,6 +53,7 @@ class updateInfo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         ubind= ActivityUpdateInfoBinding.inflate(layoutInflater)
         setContentView(ubind.root)
+        imageUri=createImageUri()
         val curruser=FirebaseAuth.getInstance().currentUser
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -62,7 +66,7 @@ class updateInfo : AppCompatActivity() {
         ubind.savebtn.setOnClickListener{
             ubind.savebtn.isClickable=false
             if(!ubind.newUsername.text.toString().isEmpty()) {
-                uploadtoFirestore(imageUri)
+                    uploadtoFirestore(imageUri)
                 if (curruser != null) {
                     val userId = curruser.uid
                     val db = FirebaseFirestore.getInstance()
@@ -91,7 +95,6 @@ class updateInfo : AppCompatActivity() {
                 dialog.setContentView(R.layout.activity_dp_dialog)
                 dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 dialog.findViewById<LinearLayout>(R.id.camerabox).setOnClickListener {
-                    imageUri=createImageUri()
                     camContract.launch(imageUri)
                     dialog.dismiss()
                 }
