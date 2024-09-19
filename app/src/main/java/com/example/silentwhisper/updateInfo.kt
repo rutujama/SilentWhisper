@@ -16,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.bumptech.glide.Glide
 import com.example.silentwhisper.databinding.ActivityUpdateInfoBinding
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -62,6 +63,7 @@ class updateInfo : AppCompatActivity() {
         if (curruser != null) {
             setUsername(curruser)
             setAnonUsername(curruser)
+            setProfilePicture(curruser)
         }
         ubind.savebtn.setOnClickListener{
             ubind.savebtn.isClickable=false
@@ -176,6 +178,43 @@ class updateInfo : AppCompatActivity() {
         }
     }
 
+
+
+    fun setProfilePicture(cUser: FirebaseUser) {
+        if (cUser != null) {
+            val userId = cUser.uid // Get the current user's UID
+
+            // Reference to the Firestore document
+            val db = FirebaseFirestore.getInstance()
+
+            db.collection("users").document(userId).get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        // Fetch the profile picture URL from the document
+                        val profilePicUrl = document.getString("profilePic") // Fetch profile picture URL from "profilePic" field
+
+                        if (profilePicUrl != null) {
+                            // Assuming you are using Glide to load the image into an ImageView (e.g., ubind.profileImageView)
+                            Glide.with(this)
+                                .load(profilePicUrl)
+                                .placeholder(R.drawable.swlogo) // Placeholder image
+                                .error(R.drawable.swlogo)         // Error image
+                                .into(ubind.newdp)                // Update with your ImageView
+
+                        } else {
+                            Toast.makeText(this, "Profile picture not found", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Toast.makeText(this, "Error fetching profile picture: ${exception.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     fun setAnonUsername(cUser: FirebaseUser) {
         if (cUser != null) {
