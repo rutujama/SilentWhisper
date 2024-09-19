@@ -21,6 +21,8 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.FirebaseStorage
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -35,7 +37,6 @@ class updateInfo : AppCompatActivity() {
 
     lateinit var ubind : ActivityUpdateInfoBinding
     private lateinit var imageUri : Uri
-    private lateinit var shareuri : Uri
     private val contract=registerForActivityResult(ActivityResultContracts.GetContent())
     {
         findViewById<ImageView>(R.id.newdp).setImageURI(it)
@@ -61,6 +62,7 @@ class updateInfo : AppCompatActivity() {
         ubind.savebtn.setOnClickListener{
             ubind.savebtn.isClickable=false
             if(!ubind.newUsername.text.toString().isEmpty()) {
+                uploadtoFirestore(imageUri)
                 if (curruser != null) {
                     val userId = curruser.uid
                     val db = FirebaseFirestore.getInstance()
@@ -106,6 +108,32 @@ class updateInfo : AppCompatActivity() {
     }
 
 
+    fun uploadtoFirestore(photoUri: Uri){
+        val curruser=FirebaseAuth.getInstance().currentUser
+        val currUserId= curruser?.uid
+        val photoRef=FirebaseStorage.getInstance()
+            .reference
+            .child("profilePic/"+currUserId)
+        photoRef.putFile(photoUri)
+            .addOnSuccessListener {
+                photoRef.downloadUrl.addOnSuccessListener {
+                    postToFirestore(it.toString())
+                }
+            }
+    }
+
+    fun postToFirestore(url: String)
+    {
+        val curruser=FirebaseAuth.getInstance().currentUser
+        if (curruser != null) {
+            val userId = curruser.uid
+            val db = FirebaseFirestore.getInstance()
+            val userUpdate = hashMapOf(
+                "profilePic" to url
+            )
+            db.collection("users").document(userId).update(userUpdate as Map<String, Any>)
+        }
+    }
     private fun createImageUri():Uri{
         val image = File(filesDir,"SilentWhisper"+System.currentTimeMillis()/1000+".png")
         return FileProvider.getUriForFile(this,
