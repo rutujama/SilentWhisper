@@ -22,11 +22,14 @@
 
     <!-- Profile Picture Frame -->
     <FrameLayout
-        android:layout_width="145dp"
-        android:layout_height="145dp"
+        android:id="@+id/dpbtn"
+        android:layout_width="142dp"
+        android:layout_height="142dp"
         android:layout_marginBottom="20dp"
         android:elevation="4dp"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:focusable="true">
 
         <!-- Profile Picture -->
         <ImageView
@@ -34,10 +37,11 @@
             android:layout_width="130dp"
             android:layout_height="130dp"
             android:src="@drawable/swlogo"
-            android:background="@drawable/circleicon"
-            android:backgroundTint="@color/black"
+            android:background="@drawable/dp_circle"
             android:layout_gravity="center"
-            android:elevation="2dp"/>
+            android:elevation="2dp"
+            android:scaleType="centerCrop"
+            android:clipToOutline="true"/>
 
         <!-- Edit Button on Picture -->
         <androidx.appcompat.widget.AppCompatImageButton

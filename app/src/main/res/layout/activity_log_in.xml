@@ -40,7 +40,7 @@
                 android:text="Email"
                 android:layout_marginBottom="3dp"
                 android:textColor="@color/white"
-                android:textSize="21dp">
+                android:textSize="18dp">
 
             </TextView>
 
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:text="Password"
                 android:textColor="@color/white"
-                android:textSize="21dp"
+                android:textSize="18dp"
                 android:layout_marginBottom="3dp"
                 >
 
