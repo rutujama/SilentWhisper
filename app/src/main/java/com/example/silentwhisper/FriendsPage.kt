@@ -6,15 +6,43 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewGroupOverlay
+import android.view.ViewParent
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.menu.MenuView.ItemView
 import com.example.silentwhisper.databinding.ActivityFriendsPageBinding
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.auth.User
+
+
+class FriendsPage(val context: Context,val  userList: ArrayList<User>):
+    RecyclerView.Adapter<UserAdapter,UserViewHolder>{
+override fun onCreateViewholder(parent: ViewGroup, viewType: Int):UserViewHolder{
+
+}
+    override fun onBindViewHolder(holder: UserViewHolder,position:Int)
+    {
+
+    }
+    override fun getItemCount():Int{
+
+    }
+    class UserViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+
+    }
+}
+
+
+
 
 
 class FriendsPage : AppCompatActivity() {
@@ -22,7 +50,6 @@ class FriendsPage : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
     lateinit var sharedpref: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
-
 
         super.onCreate(savedInstanceState)
         fbinder= ActivityFriendsPageBinding.inflate(layoutInflater)
@@ -39,17 +66,7 @@ class FriendsPage : AppCompatActivity() {
         if (cUser != null) {
             setUsername(cUser)
         }
-        fbinder.logoutbtn.setOnClickListener {
-            val sharedflag= sharedpref.edit()
-            sharedflag.putBoolean("Accepted",false)
-            sharedflag.apply()
-            intent= Intent(this,LogIn::class.java)
-            auth.signOut()
-            startActivity(intent)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            Toast.makeText(this,"You have been Logged Out ", Toast.LENGTH_SHORT).show()
-            finish()
-        }
+
         fbinder.myprofilebtn.setOnClickListener{
             startActivity(Intent(this@FriendsPage,MyProfile::class.java))
         }

@@ -9,7 +9,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/hibox"
+        android:id="@+id/fname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Welcome Admin"
@@ -22,17 +22,7 @@
     </TextView>
 
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/logoutbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="LogOut"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:backgroundTint="@color/cherryred"
-        android:textColor="@color/white"/>
+
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/myprofilebtn"
