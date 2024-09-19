@@ -1,9 +1,13 @@
 package com.example.silentwhisper
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Binder
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
@@ -53,30 +57,32 @@ class LogIn : AppCompatActivity() {
             }
         }
 
-        binder.loginbtn.setOnClickListener{
-            val email = binder.etemail.text.toString()
-            val passreg = binder.etpass.text.toString()
-
-            if (email.isNotEmpty() && passreg.isNotEmpty() )
-            {
-
+        binder.loginbtn.setOnClickListener {
+            if (isInternetAvailable(this)) {
+                val email = binder.etemail.text.toString()
+                val passreg = binder.etpass.text.toString()
+                if (email.isNotEmpty() && passreg.isNotEmpty()) {
+                    val loadingDialog = Dialog(this)
+                    loadingDialog.setContentView(R.layout.loadingscreen)
+                    loadingDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                    loadingDialog.setCancelable(false)
+                    loadingDialog.show()
                     auth.signInWithEmailAndPassword(email, passreg).addOnCompleteListener {
-                        if (it.isSuccessful)
-                        {
-                                val intent = Intent(this, PermissionsPage::class.java)
-                                startActivity(intent)
-                                finish()
-                        }
-                        else
-                        {
+                        loadingDialog.dismiss()
+                        if (it.isSuccessful) {
+                            val intent = Intent(this, PermissionsPage::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else {
                             Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
                         }
                     }
-
+                } else {
+                    Toast.makeText(this, "Empty fields not allowed", Toast.LENGTH_SHORT).show()
                 }
-            else
-            {
-                Toast.makeText(this, "Empty fields not allowed", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Please Check Your Internet Connection!", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
@@ -86,6 +92,19 @@ class LogIn : AppCompatActivity() {
 
     }
 
+    fun isInternetAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork ?: return false
+            val networkCapabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+            return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                    networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+        } else {
+            @Suppress("DEPRECATION")
+            val activeNetworkInfo = connectivityManager.activeNetworkInfo
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected
+        }
+    }
     fun passwordhide(view: View) {
         val cursorPosition = binder.etpass.selectionStart
 

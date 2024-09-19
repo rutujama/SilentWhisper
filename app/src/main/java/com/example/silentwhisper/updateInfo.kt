@@ -2,9 +2,13 @@ package com.example.silentwhisper
 
 import android.Manifest
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -67,29 +71,41 @@ class updateInfo : AppCompatActivity() {
             setProfilePicture(curruser)
         }
         ubind.savebtn.setOnClickListener{
-            ubind.savebtn.isClickable=false
-            if(!ubind.newUsername.text.toString().isEmpty()) {
+            if(isInternetAvailable(this)) {
+                ubind.savebtn.isClickable=false
+                if (!ubind.newUsername.text.toString().isEmpty()) {
                     uploadtoFirestore(imageUri)
-                if (curruser != null) {
-                    val userId = curruser.uid
-                    val db = FirebaseFirestore.getInstance()
-                    val userUpdate = hashMapOf(
-                        "username" to ubind.newUsername.text.toString(),
-                        "anonusername" to ubind.anonymousnamebtn.text.toString()
-                    )
-                    db.collection("users").document(userId).update(userUpdate as Map<String, Any>)
+                    if (curruser != null) {
+                        val userId = curruser.uid
+                        val db = FirebaseFirestore.getInstance()
+                        val userUpdate = hashMapOf(
+                            "username" to ubind.newUsername.text.toString(),
+                            "anonusername" to ubind.anonymousnamebtn.text.toString()
+                        )
+                        db.collection("users").document(userId)
+                            .update(userUpdate as Map<String, Any>)
+                    }
+                    ubind.savebtn.isClickable = true
+                    startActivity(Intent(this@updateInfo, FriendsPage::class.java))
+                    finish()
+                } else {
+                    ubind.savebtn.isClickable = true
+                    Toast.makeText(this@updateInfo, "Name Can't Be Empty", Toast.LENGTH_SHORT)
+                        .show()
                 }
-                ubind.savebtn.isClickable=true
-                startActivity(Intent(this@updateInfo, FriendsPage::class.java))
-                finish()
             }
             else{
-                ubind.savebtn.isClickable=false
-                Toast.makeText(this@updateInfo,"Name Can't Be Empty",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please Check Your Internet Connection!", Toast.LENGTH_SHORT).show()
             }
         }
         ubind.anonymousnamereloadbtn.setOnClickListener{
-            getAnonName()
+            if(isInternetAvailable(this)) {
+                getAnonName()
+            }
+            else{
+                Toast.makeText(this, "Please Check Your Internet Connection!", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
 
         ubind.dpbtn.setOnClickListener {
@@ -113,6 +129,20 @@ class updateInfo : AppCompatActivity() {
         }
     }
 
+
+    fun isInternetAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork ?: return false
+            val networkCapabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+            return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                    networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+        } else {
+            @Suppress("DEPRECATION")
+            val activeNetworkInfo = connectivityManager.activeNetworkInfo
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected
+        }
+    }
 
     fun uploadtoFirestore(photoUri: Uri){
         val curruser=FirebaseAuth.getInstance().currentUser
