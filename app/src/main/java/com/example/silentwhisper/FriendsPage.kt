@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.menu.MenuView.ItemView
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.silentwhisper.databinding.ActivityFriendsPageBinding
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -23,38 +24,24 @@ import com.google.firebase.firestore.firestore
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.auth.User
 
-
-class FriendsPage(val context: Context,val  userList: ArrayList<User>):
-    RecyclerView.Adapter<UserAdapter,UserViewHolder>{
-override fun onCreateViewholder(parent: ViewGroup, viewType: Int):UserViewHolder{
-
-}
-    override fun onBindViewHolder(holder: UserViewHolder,position:Int)
-    {
-
-    }
-    override fun getItemCount():Int{
-
-    }
-    class UserViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-
-    }
-}
-
-
-
-
-
 class FriendsPage : AppCompatActivity() {
     lateinit var fbinder: ActivityFriendsPageBinding
     lateinit var auth: FirebaseAuth
     lateinit var sharedpref: SharedPreferences
+    lateinit var userAdapter: UserAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         fbinder= ActivityFriendsPageBinding.inflate(layoutInflater)
         setContentView(fbinder.root)
         sharedpref = getSharedPreferences("hasAccepted", Context.MODE_PRIVATE)
+         val userList = ArrayList<FirebaseUser>()
+        userAdapter = UserAdapter(this, userList)
+
+
+
+
+
 
         val cUser = FirebaseAuth.getInstance().currentUser
         auth=FirebaseAuth.getInstance()
@@ -70,7 +57,10 @@ class FriendsPage : AppCompatActivity() {
         fbinder.myprofilebtn.setOnClickListener{
             startActivity(Intent(this@FriendsPage,MyProfile::class.java))
         }
+
     }
+
+
     fun setUsername(cUser: FirebaseUser) {
         if (cUser != null) {
             val userId = cUser.uid // Get the current user's UID
@@ -84,7 +74,7 @@ class FriendsPage : AppCompatActivity() {
                         // Fetch the username from the document
                         val username = document.getString("username") // Update this to the correct field name
                         if (username != null) {
-                            fbinder.hibox.setText("Hey $username") // Update this to match the UI element
+                            fbinder.fname.setText("Hey $username") // Update this to match the UI element
                         } else {
                             Toast.makeText(this, "Username not found", Toast.LENGTH_SHORT).show()
                         }

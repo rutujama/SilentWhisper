@@ -17,8 +17,8 @@ class UserAdapter(private val context: Context, private val userList: ArrayList<
 
     // ViewHolder Class
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val friendName: TextView = itemView.findViewById(R.id.friend_name)
-        val friendAvatar: ImageView = itemView.findViewById(R.id.friend_avatar)
+        val friendName: TextView = itemView.findViewById(R.id.fname)
+        val friendAvatar: ImageView = itemView.findViewById(R.id.dp)
     }
 
     // Create ViewHolder
