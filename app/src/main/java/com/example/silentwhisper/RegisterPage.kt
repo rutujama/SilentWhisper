@@ -58,7 +58,8 @@ class RegisterPage : AppCompatActivity() {
                                 val user = hashMapOf(
                                     "Email" to bind.emailbox.text.toString(),
                                     "MobileNum" to bind.mobilenumbox.text.toString(),
-                                    "anonusername" to allotted_username
+                                    "anonusername" to allotted_username,
+                                    "profilePic" to "gs://silentwhisperdb.appspot.com/profilePic/swlogo.png"
                                 )
                                 db.collection("users").document(userId).set(user)
                             }
