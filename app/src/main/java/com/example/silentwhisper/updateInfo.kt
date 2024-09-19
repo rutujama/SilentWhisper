@@ -1,11 +1,21 @@
 package com.example.silentwhisper
 
+import android.Manifest
+import android.app.Dialog
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.example.silentwhisper.databinding.ActivityUpdateInfoBinding
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -17,11 +27,24 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import org.json.JSONObject
+import java.io.File
 import java.io.IOException
+import java.util.ArrayList
 
 class updateInfo : AppCompatActivity() {
 
     lateinit var ubind : ActivityUpdateInfoBinding
+    private lateinit var imageUri : Uri
+    private lateinit var shareuri : Uri
+    private val contract=registerForActivityResult(ActivityResultContracts.GetContent())
+    {
+        findViewById<ImageView>(R.id.newdp).setImageURI(it)
+    }
+    private val camContract=registerForActivityResult(ActivityResultContracts.TakePicture())
+    {
+        findViewById<ImageView>(R.id.newdp).setImageURI(null)
+        findViewById<ImageView>(R.id.newdp).setImageURI(imageUri)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ubind= ActivityUpdateInfoBinding.inflate(layoutInflater)
@@ -58,6 +81,67 @@ class updateInfo : AppCompatActivity() {
         }
         ubind.anonymousnamereloadbtn.setOnClickListener{
             getAnonName()
+        }
+
+        ubind.dpbtn.setOnClickListener {
+            if(requestpermission()) {
+                val dialog = Dialog(this)
+                dialog.setContentView(R.layout.activity_dp_dialog)
+                dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                dialog.findViewById<LinearLayout>(R.id.camerabox).setOnClickListener {
+                    imageUri=createImageUri()
+                    camContract.launch(imageUri)
+                    dialog.dismiss()
+                }
+                dialog.findViewById<LinearLayout>(R.id.gallerybtn).setOnClickListener {
+                    contract.launch("image/*")
+                    dialog.dismiss()
+                }
+                dialog.show()
+            }
+            else{
+                Toast.makeText(this, "Oops Your Need To allow all permissions to access this feature!!", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+
+    private fun createImageUri():Uri{
+        val image = File(filesDir,"SilentWhisper"+System.currentTimeMillis()/1000+".png")
+        return FileProvider.getUriForFile(this,
+            "com.example.silentwhisper.FileProvider",
+            image)
+    }
+
+    fun permissionlist(): ArrayList<String>
+    {
+        var listofpermissions= ArrayList<String>()
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED)
+        {
+            listofpermissions.add(Manifest.permission.CAMERA)
+        }
+        if(ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_MEDIA_IMAGES)!= PackageManager.PERMISSION_GRANTED)
+        {
+            listofpermissions.add(Manifest.permission.READ_MEDIA_IMAGES)
+        }
+        return listofpermissions
+    }
+
+    fun requestpermission():Boolean{
+        var listofpermissions =permissionlist()
+        if(listofpermissions.isEmpty()) {
+            return true
+        }
+        else{
+            ActivityCompat.requestPermissions(this,listofpermissions.toTypedArray(),1)
+            listofpermissions=permissionlist()
+            if(permissionlist().isEmpty()){
+                return true
+            }
+            else{
+                return false
+            }
         }
     }
 

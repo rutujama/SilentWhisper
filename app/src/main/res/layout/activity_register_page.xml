@@ -28,7 +28,7 @@
     </TextView>
     <androidx.cardview.widget.CardView
         android:layout_width="300dp"
-        android:layout_height="555dp"
+        android:layout_height="540dp"
         app:cardCornerRadius="15dp"
         android:elevation="5dp"
         android:layout_gravity="center">
@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                  android:id="@+id/regemail"
-                android:textSize="21dp"
+                android:textSize="19dp"
                 android:text="E-mail"
                 android:textColor="@color/white"
                 android:layout_marginLeft="5dp"
@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/mobnum"
-                android:textSize="21dp"
+                android:textSize="19dp"
                 android:text="Phone Number"
                 android:textColor="@color/white"
                 android:layout_marginLeft="5dp"
@@ -106,7 +106,7 @@
                 android:id="@+id/pass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="21dp"
+                android:textSize="19dp"
                 android:text="Password"
                 android:textColor="@color/white"
                 android:layout_marginLeft="5dp"
@@ -145,7 +145,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="21dp"
+                android:textSize="19dp"
                 android:text="Confirm Password"
                 android:textColor="@color/white"
                 android:layout_marginLeft="5dp"
