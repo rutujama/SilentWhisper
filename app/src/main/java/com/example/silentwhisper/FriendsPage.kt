@@ -35,50 +35,8 @@ class FriendsPage : AppCompatActivity() {
                 // Do nothing, back button is disabled
             }
         })
-        if (cUser != null) {
-            setUsername(cUser)
-        }
-        fbinder.logoutbtn.setOnClickListener {
-            val sharedflag= sharedpref.edit()
-            sharedflag.putBoolean("Accepted",false)
-            sharedflag.apply()
-            intent= Intent(this,LogIn::class.java)
-            auth.signOut()
-            startActivity(intent)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            Toast.makeText(this,"You have been Logged Out ", Toast.LENGTH_SHORT).show()
-            finish()
-        }
         fbinder.myprofilebtn.setOnClickListener{
             startActivity(Intent(this@FriendsPage,MyProfile::class.java))
-        }
-    }
-    fun setUsername(cUser: FirebaseUser) {
-        if (cUser != null) {
-            val userId = cUser.uid // Get the current user's UID
-
-            // Reference to the Firestore document
-            val db = FirebaseFirestore.getInstance()
-
-            db.collection("users").document(userId).get()
-                .addOnSuccessListener { document ->
-                    if (document != null && document.exists()) {
-                        // Fetch the username from the document
-                        val username = document.getString("username") // Update this to the correct field name
-                        if (username != null) {
-                            fbinder.hibox.setText("Hey $username") // Update this to match the UI element
-                        } else {
-                            Toast.makeText(this, "Username not found", Toast.LENGTH_SHORT).show()
-                        }
-                    } else {
-                        Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    Toast.makeText(this, "Error fetching data: ${exception.message}", Toast.LENGTH_SHORT).show()
-                }
-        } else {
-            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
         }
     }
 

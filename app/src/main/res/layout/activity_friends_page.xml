@@ -5,43 +5,74 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FriendsPage"
-    android:background="@color/royalblue"
-    android:orientation="vertical">
+    android:background="@color/lightgrey"
+    android:orientation="vertical"
+    android:padding="15dp">
 
-    <TextView
-        android:id="@+id/hibox"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Welcome Admin"
-        android:textSize="40dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="50dp"
-        android:textAlignment="textStart">
+        android:padding="5dp">
 
-    </TextView>
+        <ImageView
+            android:id="@+id/myprofilebtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/dp_circle"
+            android:clipToOutline="true"
+            android:backgroundTint="@color/black"
+            android:src="@drawable/swlogo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
+        <TextView
+            android:id="@+id/chatsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chats"
+            android:textStyle="bold"
+            android:layout_marginStart="20dp"
+            android:textSize="30sp"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@id/myprofilebtn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/logoutbtn"
-        android:layout_width="wrap_content"
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/dp_circle"
+            android:src="@drawable/addicon"
+            android:backgroundTint="@color/orange"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="LogOut"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:backgroundTint="@color/cherryred"
-        android:textColor="@color/white"/>
+        android:backgroundTint="@color/darkgrey"
+        android:background="@drawable/roundedpanel"
+        android:gravity="center_vertical"
+        android:padding="2dp">
 
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/myprofilebtn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/circleicon"
-        android:src="@drawable/smiley">
+        <ImageView
+            android:id="@+id/profileImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/dp_circle"
+            android:clipToOutline="true"
+            android:backgroundTint="#00000000"
+            android:src="@drawable/swlogo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginLeft="5dp"/>
 
-    </androidx.appcompat.widget.AppCompatImageButton>
 
+
+    </LinearLayout>
 
 </LinearLayout>
