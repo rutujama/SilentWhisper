@@ -7,27 +7,28 @@
     tools:context=".RegisterPage"
     android:orientation="vertical"
     android:background="@color/royalblue"
-    android:gravity="center">
+    android:gravity="center_horizontal">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_marginTop="50dp">
     <TextView
-        android:layout_width="350dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Get Started !!"
         android:textSize="38dp"
         android:textStyle="bold"
         android:textColor="@color/white"
-        android:layout_marginLeft="25dp"
+        android:layout_gravity="start"
         android:layout_marginBottom="20dp">
 
     </TextView>
     <androidx.cardview.widget.CardView
         android:layout_width="300dp"
-        android:layout_height="575dp"
+        android:layout_height="540dp"
         app:cardCornerRadius="15dp"
         android:elevation="5dp"
         android:layout_gravity="center">
@@ -37,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@drawable/gradientbg"
+            android:background="@color/inkblue"
             android:padding="15dp">
 
             <ImageView
@@ -60,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                  android:id="@+id/regemail"
-                android:textSize="25dp"
+                android:textSize="19dp"
                 android:text="E-mail"
                 android:textColor="@color/white"
                 android:layout_marginLeft="5dp"
@@ -71,7 +72,7 @@
             <EditText
                 android:id="@+id/emailbox"
                 android:layout_width="270dp"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:background="@drawable/roundeddialog"
                 android:backgroundTint="@color/white"
                 android:layout_marginBottom="15dp"
@@ -83,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/mobnum"
-                android:textSize="25dp"
+                android:textSize="19dp"
                 android:text="Phone Number"
                 android:textColor="@color/white"
                 android:layout_marginLeft="5dp"
@@ -93,19 +94,20 @@
             <EditText
                 android:id="@+id/mobilenumbox"
                 android:layout_width="270dp"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:background="@drawable/roundeddialog"
                 android:backgroundTint="@color/white"
                 android:layout_marginBottom="15dp"
                 android:padding="6dp"
-                android:textColor="@color/black">
+                android:textColor="@color/black"
+                android:maxLength="10">
 
             </EditText>
             <TextView
                 android:id="@+id/pass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25dp"
+                android:textSize="19dp"
                 android:text="Password"
                 android:textColor="@color/white"
                 android:layout_marginLeft="5dp"
@@ -115,12 +117,13 @@
 
             <FrameLayout
                 android:layout_width="270dp"
-                android:layout_height="40dp">
+                android:layout_height="35dp"
+                android:layout_marginBottom="15dp">
 
                 <EditText
                     android:id="@+id/passbox"
                     android:layout_width="270dp"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
                     android:background="@drawable/roundeddialog"
                     android:backgroundTint="@color/white"
                     android:layout_marginBottom="15dp"
@@ -131,11 +134,11 @@
 
                 <ImageButton
                     android:id="@+id/openeyebtn1"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@drawable/closeeye"
                     android:layout_gravity="end|center_vertical"
-                    android:backgroundTint="@color/white"
+                    android:backgroundTint="#00000000"
                     android:scaleType="centerCrop"/>
 
             </FrameLayout>
@@ -143,7 +146,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25dp"
+                android:textSize="19dp"
                 android:text="Confirm Password"
                 android:textColor="@color/white"
                 android:layout_marginLeft="5dp"
@@ -153,15 +156,15 @@
 
             <FrameLayout
                 android:layout_width="270dp"
-                android:layout_height="40dp">
+                android:layout_height="35dp"
+                android:layout_marginBottom="5dp">
 
                 <EditText
                     android:id="@+id/confirmpassbox"
                     android:layout_width="270dp"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
                     android:background="@drawable/roundeddialog"
                     android:backgroundTint="@color/white"
-                    android:layout_marginBottom="15dp"
                     android:padding="6dp"
                     android:textColor="@color/black"
                     android:layout_gravity="left"
@@ -169,11 +172,11 @@
 
                 <ImageButton
                     android:id="@+id/openeyebtn2"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@drawable/closeeye"
                     android:layout_gravity="end|center_vertical"
-                    android:backgroundTint="@color/white"
+                    android:backgroundTint="#00000000"
                     android:scaleType="centerCrop"/>
 
             </FrameLayout>
@@ -187,8 +190,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Already A User?"
-                    android:textColor="@color/black"
-                    android:layout_gravity="right"
+                    android:textColor="@color/white"
+                    android:layout_gravity="right|center_vertical"
                     android:textStyle="bold"
                     android:clickable="true"
                     android:focusable="true"
@@ -209,7 +212,8 @@
                     android:layout_height="45dp"
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/roundeddialog"
-                    android:backgroundTint="@color/inkblue"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/royalblue"
                     android:text="SUBMIT"
                     android:textSize="15sp" />
 

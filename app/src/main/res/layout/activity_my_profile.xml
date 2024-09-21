@@ -12,55 +12,81 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:background="@drawable/roundeddialog"
         android:backgroundTint="@color/inkblue"
         android:padding="10dp"
-        android:gravity="center">
+        android:gravity="center_vertical">
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/backbtn"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="start"
             android:background="@drawable/circleicon"
-            android:src="@drawable/backarrow">
-
-        </androidx.appcompat.widget.AppCompatImageButton>
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/swlogo"
-            android:scaleType="centerCrop"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/circleicon"
-            android:backgroundTint="@color/black"
-            android:layout_marginRight="10dp" />
+            android:src="@drawable/backarrow"
+            android:layout_marginEnd="2dp" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical|start"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp">
+        <ImageView
+            android:id="@+id/mydp"
+            android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_gravity="center_vertical|left"
+            android:src="@drawable/swlogo"
+            android:scaleType="centerCrop"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/dp_circle"
+            android:backgroundTint="@color/black"
+            android:clipToOutline="true"/>
+
+        <!-- Username and Title Section -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="5dp"
             android:gravity="center">
 
-
+            <!-- Title Text -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
+                android:text="Anonymous Title"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_gravity="start"/>
 
-                android:text="User Profile"
-                android:textColor="#FFFFFF"
-                android:textSize="35dp"
-                android:textStyle="bold" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/white"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
 
+            <!-- Username Text (Single Line) -->
+            <TextView
+                android:id="@+id/anonnametitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ZenSamurai_"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:layout_gravity="start"
+                android:layout_marginTop="5dp"/>
 
         </LinearLayout>
-
     </LinearLayout>
+    </LinearLayout>
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -170,31 +196,30 @@
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:layout_marginTop="25dp">
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/editbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Edit"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/roundeddialog"
+                    android:backgroundTint="@color/cherryred"
+                    android:textColor="#FFFFFF">
 
+                </androidx.appcompat.widget.AppCompatButton>
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnLogout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="Logout"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
                 android:background="@drawable/roundeddialog"
                 android:backgroundTint="@color/cherryred"
                 android:textColor="#FFFFFF">
 
             </androidx.appcompat.widget.AppCompatButton>
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/editbtn"
-                    android:layout_marginLeft="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="Edit"
-                    android:background="@drawable/roundeddialog"
-                    android:backgroundTint="@color/cherryred"
-                    android:textColor="#FFFFFF">
-
-                </androidx.appcompat.widget.AppCompatButton>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

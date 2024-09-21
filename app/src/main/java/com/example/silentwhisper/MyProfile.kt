@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.example.silentwhisper.databinding.ActivityMyProfileBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -26,6 +27,8 @@ class MyProfile : AppCompatActivity() {
             mybind.tvEmail.setText(curruser.email)
             setnumber(curruser)
             setUsername(curruser)
+            setAnonUsername(curruser)
+            setProfilePicture(curruser)
         }
         sharedpref = getSharedPreferences("hasAccepted", Context.MODE_PRIVATE)
         mybind.btnLogout.setOnClickListener {
@@ -71,6 +74,71 @@ class MyProfile : AppCompatActivity() {
                 }
                 .addOnFailureListener { exception ->
                     Toast.makeText(this, "Error fetching data: ${exception.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun setAnonUsername(cUser: FirebaseUser) {
+        if (cUser != null) {
+            val userId = cUser.uid // Get the current user's UID
+
+            // Reference to the Firestore document
+            val db = FirebaseFirestore.getInstance()
+
+            db.collection("users").document(userId).get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        // Fetch the username from the document
+                        val username = document.getString("anonusername") // Update this to the correct field name
+                        if (username != null) {
+                            mybind.anonnametitle.setText(username) // Update this to match the UI element
+                        } else {
+                            Toast.makeText(this, "Username not found", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Toast.makeText(this, "Error fetching data: ${exception.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun setProfilePicture(cUser: FirebaseUser) {
+        if (cUser != null) {
+            val userId = cUser.uid // Get the current user's UID
+
+            // Reference to the Firestore document
+            val db = FirebaseFirestore.getInstance()
+
+            db.collection("users").document(userId).get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        // Fetch the profile picture URL from the document
+                        val profilePicUrl = document.getString("profilePic") // Fetch profile picture URL from "profilePic" field
+
+                        if (profilePicUrl != null) {
+                            // Assuming you are using Glide to load the image into an ImageView (e.g., ubind.profileImageView)
+                            Glide.with(this)
+                                .load(profilePicUrl)
+                                .placeholder(R.drawable.swlogo) // Placeholder image
+                                .error(R.drawable.swlogo)         // Error image
+                                .into(mybind.mydp)                // Update with your ImageView
+
+                        } else {
+                            Toast.makeText(this, "Profile picture not found", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Toast.makeText(this, "Error fetching profile picture: ${exception.message}", Toast.LENGTH_SHORT).show()
                 }
         } else {
             Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
