@@ -130,6 +130,11 @@ class updateInfo : AppCompatActivity() {
                 }
                 dialog.findViewById<LinearLayout>(R.id.generatebtn).setOnClickListener {
                     if(isInternetAvailable(this)) {
+                        val loadingDialog = Dialog(this)
+                        loadingDialog.setContentView(R.layout.loadingscreen)
+                        loadingDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                        loadingDialog.setCancelable(true)
+                        loadingDialog.show()
                         CoroutineScope(Dispatchers.IO).launch {
                             try {
                                 val fetchedBitmap = fetchImage("https://picsum.photos/200")
@@ -140,6 +145,7 @@ class updateInfo : AppCompatActivity() {
 
                                     // Switch back to the main thread to update the UI
                                     withContext(Dispatchers.Main) {
+                                        loadingDialog.dismiss()
                                         if (imageUri != null) {
                                             findViewById<ImageView>(R.id.newdp).setImageURI(imageUri)
                                             dialog.dismiss()

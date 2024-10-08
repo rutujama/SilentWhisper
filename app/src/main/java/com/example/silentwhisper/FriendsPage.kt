@@ -48,6 +48,7 @@ class FriendsPage : AppCompatActivity() {
         })
         fbinder.setting.setOnClickListener{
             startActivity(Intent(this@FriendsPage,MyProfile::class.java))
+            finish()
         }
     }
 
