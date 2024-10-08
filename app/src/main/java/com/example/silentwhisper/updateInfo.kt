@@ -5,6 +5,8 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
@@ -28,6 +30,10 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -36,6 +42,7 @@ import okhttp3.Response
 import org.json.JSONObject
 import java.io.File
 import java.io.IOException
+import java.io.InputStream
 import java.util.ArrayList
 
 class updateInfo : AppCompatActivity() {
@@ -121,6 +128,36 @@ class updateInfo : AppCompatActivity() {
                     contract.launch("image/*")
                     dialog.dismiss()
                 }
+                dialog.findViewById<LinearLayout>(R.id.generatebtn).setOnClickListener {
+                    if(isInternetAvailable(this)) {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            try {
+                                val fetchedBitmap = fetchImage("https://picsum.photos/200")
+
+                                // Save the fetched bitmap and get the URI
+                                fetchedBitmap?.let {
+                                    val imageUri = saveImageToUri(it, this@updateInfo)
+
+                                    // Switch back to the main thread to update the UI
+                                    withContext(Dispatchers.Main) {
+                                        if (imageUri != null) {
+                                            findViewById<ImageView>(R.id.newdp).setImageURI(imageUri)
+                                            dialog.dismiss()
+                                        } else {
+                                            Toast.makeText(this@updateInfo, "Error saving image", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                                }
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+                        }
+                    }
+                    else{
+                        Toast.makeText(this, "Please Check Your Internet Connection!", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
                 dialog.show()
             }
             else{
@@ -170,6 +207,28 @@ class updateInfo : AppCompatActivity() {
             db.collection("users").document(userId).update(userUpdate as Map<String, Any>)
         }
     }
+
+    fun saveImageToUri(bitmap: Bitmap, context: Context): Uri? {
+        try {
+            // Open an output stream to write the image data to the URI
+            context.contentResolver.openOutputStream(imageUri)?.use { out ->
+                // Compress the bitmap to a PNG file
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+            return null
+        }
+
+        // Force the ImageView to refresh
+        findViewById<ImageView>(R.id.newdp).setImageDrawable(null) // Clear previous image
+        findViewById<ImageView>(R.id.newdp).setImageURI(imageUri) // Set the new image
+
+        // Return the URI of the saved image
+        return imageUri
+    }
+
+
     private fun createImageUri():Uri{
         val image = File(filesDir,"SilentWhisper"+System.currentTimeMillis()/1000+".png")
         return FileProvider.getUriForFile(this,
@@ -301,6 +360,21 @@ class updateInfo : AppCompatActivity() {
                 }
         } else {
             Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun fetchImage(url: String): Bitmap? {
+        val client = OkHttpClient()
+
+        val request = Request.Builder()
+            .url(url)
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("Unexpected code $response")
+
+            val inputStream: InputStream? = response.body?.byteStream()
+            return inputStream?.let { BitmapFactory.decodeStream(it) }
         }
     }
 

@@ -11,7 +11,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="300dp"
-        android:layout_height="160dp"
+        android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
         android:backgroundTint="@color/black">
 
@@ -19,7 +19,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:padding="15dp"
             android:layout_gravity="center"
+
             android:gravity="center">
         <LinearLayout
             android:id="@+id/camerabox"
@@ -47,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text="Click A Picture"
+                android:textColor="@color/white"
                 android:textSize="18dp"
                 android:layout_gravity="center_vertical"
                 android:gravity="center">
@@ -82,7 +85,44 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="20dp"
+                    android:textColor="@color/white"
                     android:text="Pick From Gallery"
+                    android:textSize="18dp">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/generatebtn"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/inkblue"
+                android:background="@drawable/roundeddialog"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:layout_marginTop="25dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical|start"
+                    android:background="@drawable/circleicon"
+                    android:layout_marginLeft="5dp"
+                    android:backgroundTint="#00000000"
+                    android:src="@drawable/wand">
+
+                </androidx.appcompat.widget.AppCompatImageButton>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/white"
+                    android:text="Generate Random"
                     android:textSize="18dp">
 
                 </TextView>

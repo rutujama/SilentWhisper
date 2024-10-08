@@ -22,7 +22,6 @@
 
     <!-- Profile Picture Frame -->
     <FrameLayout
-        android:id="@+id/dpbtn"
         android:layout_width="142dp"
         android:layout_height="142dp"
         android:layout_marginBottom="20dp"
@@ -45,6 +44,7 @@
 
         <!-- Edit Button on Picture -->
         <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/dpbtn"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="bottom|end"
