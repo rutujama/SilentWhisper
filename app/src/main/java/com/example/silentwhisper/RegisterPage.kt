@@ -49,7 +49,8 @@ class RegisterPage : AppCompatActivity() {
                 val email = bind.emailbox.text.toString()
                 val passreg = bind.passbox.text.toString()
                 val confirmpass = bind.confirmpassbox.text.toString()
-                if (email.isNotEmpty() && passreg.isNotEmpty() && confirmpass.isNotEmpty()) {
+                val phonenumber = bind.mobilenumbox.text.toString()
+                if (email.isNotEmpty() && passreg.isNotEmpty() && confirmpass.isNotEmpty()&& phonenumber.isNotEmpty()) {
                     if (passreg == confirmpass) {
                         val loadingDialog = Dialog(this)
                         loadingDialog.setContentView(R.layout.loadingscreen)
@@ -89,6 +90,7 @@ class RegisterPage : AppCompatActivity() {
                         bind.signinbtn.isClickable = true
                     }
                 } else {
+                    bind.signinbtn.isClickable = true
                     Toast.makeText(this, "Empty fields not allowed", Toast.LENGTH_SHORT).show()
                 }
             }

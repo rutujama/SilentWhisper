@@ -41,6 +41,7 @@ android {
 
 dependencies {
 
+    implementation ("com.google.android.gms:play-services-location:21.3.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.airbnb.android:lottie:6.5.2")
     implementation("androidx.core:core-ktx:1.13.1")
@@ -56,5 +57,6 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
     implementation ("androidx.recyclerview:recyclerview:1.3.2")
+    implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
 }

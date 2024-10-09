@@ -99,7 +99,8 @@
                 android:backgroundTint="@color/white"
                 android:layout_marginBottom="15dp"
                 android:padding="6dp"
-                android:textColor="@color/black">
+                android:textColor="@color/black"
+                android:maxLength="10">
 
             </EditText>
             <TextView

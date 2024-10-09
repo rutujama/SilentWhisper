@@ -6,12 +6,14 @@
     <color name="cherryred">#FA014E</color>
     <color name="fadeblue">#302B53</color>
     <color name="inkblue">#561bd6</color>
-    <color name="darkgrey">#2C2B2B</color>
     <color name="darkbrown">#231201</color>
     <color name="olive">#499017</color>
-    <color name="lightgrey">#808080</color>
     <color name="beige">#eedab2</color>
     <color name="purple">#84009E</color>
     <color name="lightgreen">#59B35D</color>
-    <color name="orange">#FF452C</color>
+    <color name="orange">#F04B4D</color>
+    <color name="lightgrey">#292C33</color>
+    <color name="darkgrey">#1C2127</color>
+    <color name="darkergrey">#16181E</color>
+
 </resources>

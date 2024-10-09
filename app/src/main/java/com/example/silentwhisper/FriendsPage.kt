@@ -1,28 +1,20 @@
 package com.example.silentwhisper
 
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewGroupOverlay
-import android.view.ViewParent
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.view.menu.MenuView.ItemView
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.silentwhisper.databinding.ActivityFriendsPageBinding
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.firestore
-import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.auth.User
+
 
 class FriendsPage : AppCompatActivity() {
     lateinit var fbinder: ActivityFriendsPageBinding
@@ -35,32 +27,31 @@ class FriendsPage : AppCompatActivity() {
         fbinder= ActivityFriendsPageBinding.inflate(layoutInflater)
         setContentView(fbinder.root)
         sharedpref = getSharedPreferences("hasAccepted", Context.MODE_PRIVATE)
-         val userList = ArrayList<FirebaseUser>()
-
-
-
-
-
-
+        val userList = ArrayList<FirebaseUser>()
         val cUser = FirebaseAuth.getInstance().currentUser
         auth=FirebaseAuth.getInstance()
+        if(cUser!=null)
+        {
+            setProfilePicture(cUser)
+        }
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // Do nothing, back button is disabled
             }
         })
-        if (cUser != null) {
-            setUsername(cUser)
-        }
-
-        fbinder.myprofilebtn.setOnClickListener{
+        fbinder.setting.setOnClickListener{
             startActivity(Intent(this@FriendsPage,MyProfile::class.java))
+            finishAffinity()
         }
-
+        fbinder.pullToRefresh.setOnRefreshListener(OnRefreshListener {
+            if(cUser!=null)
+            {
+                setProfilePicture(cUser)
+            }
+        })
     }
 
-
-    fun setUsername(cUser: FirebaseUser) {
+    fun setProfilePicture(cUser: FirebaseUser) {
         if (cUser != null) {
             val userId = cUser.uid // Get the current user's UID
 
@@ -70,25 +61,39 @@ class FriendsPage : AppCompatActivity() {
             db.collection("users").document(userId).get()
                 .addOnSuccessListener { document ->
                     if (document != null && document.exists()) {
-                        // Fetch the username from the document
-                        val username = document.getString("username") // Update this to the correct field name
-                        if (username != null) {
-                            fbinder.hibox.setText("Hey $username") // Update this to match the UI element
+                        // Fetch the profile picture URL from the document
+                        val profilePicUrl = document.getString("profilePic")
+
+                        if (profilePicUrl != null) {
+                            fbinder.myprofileicon.setImageDrawable(null) // Clear the previous image
+                            Glide.with(this)
+                                .load(profilePicUrl)
+                                .placeholder(R.drawable.swlogo)
+                                .error(R.drawable.swlogo)
+                                .skipMemoryCache(true)
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .into(fbinder.myprofileicon)
+
                         } else {
-                            Toast.makeText(this, "Username not found", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Profile picture not found", Toast.LENGTH_SHORT).show()
                         }
                     } else {
                         Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show()
                     }
+                    // Stop the refresh action
+                    fbinder.pullToRefresh.isRefreshing = false
                 }
                 .addOnFailureListener { exception ->
-                    Toast.makeText(this, "Error fetching data: ${exception.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Error fetching profile picture: ${exception.message}", Toast.LENGTH_SHORT).show()
+                    // Stop the refresh action even if there is an error
+                    fbinder.pullToRefresh.isRefreshing = false
                 }
         } else {
             Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+            // Stop the refresh action if the user is not logged in
+            fbinder.pullToRefresh.isRefreshing = false
         }
     }
-
 
 
 }
