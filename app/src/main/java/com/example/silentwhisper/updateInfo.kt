@@ -41,6 +41,7 @@ import okhttp3.Request
 import okhttp3.Response
 import org.json.JSONObject
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.util.ArrayList
@@ -129,46 +130,64 @@ class updateInfo : AppCompatActivity() {
                     dialog.dismiss()
                 }
                 dialog.findViewById<LinearLayout>(R.id.generatebtn).setOnClickListener {
-                    if(isInternetAvailable(this)) {
-                        val loadingDialog = Dialog(this)
-                        loadingDialog.setContentView(R.layout.loadingscreen)
-                        loadingDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-                        loadingDialog.setCancelable(true)
-                        loadingDialog.show()
-                        CoroutineScope(Dispatchers.IO).launch {
-                            try {
-                                val fetchedBitmap = fetchImage("https://picsum.photos/200")
-
-                                // Save the fetched bitmap and get the URI
-                                fetchedBitmap?.let {
-                                    val imageUri = saveImageToUri(it, this@updateInfo)
-
-                                    // Switch back to the main thread to update the UI
-                                    withContext(Dispatchers.Main) {
-                                        loadingDialog.dismiss()
-                                        if (imageUri != null) {
-                                            findViewById<ImageView>(R.id.newdp).setImageURI(imageUri)
-                                            dialog.dismiss()
-                                        } else {
-                                            Toast.makeText(this@updateInfo, "Error saving image", Toast.LENGTH_SHORT).show()
-                                        }
-                                    }
-                                }
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
-                        }
-                    }
-                    else{
-                        Toast.makeText(this, "Please Check Your Internet Connection!", Toast.LENGTH_SHORT)
-                            .show()
-                    }
+                    generateimage()
                 }
                 dialog.show()
             }
             else{
                 Toast.makeText(this, "Oops Your Need To allow all permissions to access this feature!!", Toast.LENGTH_LONG).show()
             }
+        }
+    }
+
+
+    fun generateimage() {
+        if (isInternetAvailable(this)) {
+            val loadingDialog = Dialog(this)
+            loadingDialog.setContentView(R.layout.loadingscreen)
+            loadingDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            loadingDialog.setCancelable(true)
+            loadingDialog.show()
+
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    // Fetch the image bitmap from the URL
+                    val fetchedBitmap = fetchImage("https://picsum.photos/200")
+
+                    // Save the fetched bitmap and get the URI
+                    fetchedBitmap?.let {
+                        val newImageUri = saveImageToUri(it, this@updateInfo) // Save and get the URI
+
+                        // Switch back to the main thread to update the UI
+                        withContext(Dispatchers.Main) {
+                            loadingDialog.dismiss()
+
+                            if (newImageUri != null) {
+                                // Update the global imageUri
+                                imageUri = newImageUri
+
+                                // Set the new image in the ImageView
+                                findViewById<ImageView>(R.id.newdp).setImageURI(imageUri)
+                            } else {
+                                Toast.makeText(this@updateInfo, "Error saving image", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    } ?: run {
+                        withContext(Dispatchers.Main) {
+                            loadingDialog.dismiss()
+                            Toast.makeText(this@updateInfo, "Failed to fetch image", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    withContext(Dispatchers.Main) {
+                        loadingDialog.dismiss()
+                        Toast.makeText(this@updateInfo, "Error occurred while generating image", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        } else {
+            Toast.makeText(this, "Please Check Your Internet Connection!", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -215,24 +234,27 @@ class updateInfo : AppCompatActivity() {
     }
 
     fun saveImageToUri(bitmap: Bitmap, context: Context): Uri? {
-        try {
-            // Open an output stream to write the image data to the URI
-            context.contentResolver.openOutputStream(imageUri)?.use { out ->
-                // Compress the bitmap to a PNG file
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
-            }
+        // Create a file in the cache directory to store the image
+        val file = File(context.cacheDir, "image_${System.currentTimeMillis()}.png")
+
+        return try {
+            // Write the bitmap to the file
+            val outputStream = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+            outputStream.flush()
+            outputStream.close()
+
+            // Get the URI of the saved file
+            val savedImageUri = Uri.fromFile(file)
+
+            // Return the URI of the saved image
+            savedImageUri
         } catch (e: IOException) {
             e.printStackTrace()
-            return null
+            null
         }
-
-        // Force the ImageView to refresh
-        findViewById<ImageView>(R.id.newdp).setImageDrawable(null) // Clear previous image
-        findViewById<ImageView>(R.id.newdp).setImageURI(imageUri) // Set the new image
-
-        // Return the URI of the saved image
-        return imageUri
     }
+
 
 
     private fun createImageUri():Uri{
