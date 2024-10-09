@@ -54,6 +54,7 @@ class MyProfile : AppCompatActivity() {
         }
         mybind.editbtn.setOnClickListener{
             startActivity(Intent(this@MyProfile,updateInfo::class.java))
+            finishAffinity()
         }
     }
 

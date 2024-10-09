@@ -1,27 +1,20 @@
 package com.example.silentwhisper
 
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewGroupOverlay
-import android.view.ViewParent
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.view.menu.MenuView.ItemView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.silentwhisper.databinding.ActivityFriendsPageBinding
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.firestore
-import com.bumptech.glide.Glide
-import com.google.firebase.firestore.auth.User
+
 
 class FriendsPage : AppCompatActivity() {
     lateinit var fbinder: ActivityFriendsPageBinding
@@ -48,8 +41,14 @@ class FriendsPage : AppCompatActivity() {
         })
         fbinder.setting.setOnClickListener{
             startActivity(Intent(this@FriendsPage,MyProfile::class.java))
-            finish()
+            finishAffinity()
         }
+        fbinder.pullToRefresh.setOnRefreshListener(OnRefreshListener {
+            if(cUser!=null)
+            {
+                setProfilePicture(cUser)
+            }
+        })
     }
 
     fun setProfilePicture(cUser: FirebaseUser) {
@@ -63,15 +62,17 @@ class FriendsPage : AppCompatActivity() {
                 .addOnSuccessListener { document ->
                     if (document != null && document.exists()) {
                         // Fetch the profile picture URL from the document
-                        val profilePicUrl = document.getString("profilePic") // Fetch profile picture URL from "profilePic" field
+                        val profilePicUrl = document.getString("profilePic")
 
                         if (profilePicUrl != null) {
-                            // Assuming you are using Glide to load the image into an ImageView (e.g., ubind.profileImageView)
+                            fbinder.myprofileicon.setImageDrawable(null) // Clear the previous image
                             Glide.with(this)
                                 .load(profilePicUrl)
-                                .placeholder(R.drawable.swlogo) // Placeholder image
-                                .error(R.drawable.swlogo)         // Error image
-                                .into(fbinder.myprofileicon)                // Update with your ImageView
+                                .placeholder(R.drawable.swlogo)
+                                .error(R.drawable.swlogo)
+                                .skipMemoryCache(true)
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .into(fbinder.myprofileicon)
 
                         } else {
                             Toast.makeText(this, "Profile picture not found", Toast.LENGTH_SHORT).show()
@@ -79,13 +80,20 @@ class FriendsPage : AppCompatActivity() {
                     } else {
                         Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show()
                     }
+                    // Stop the refresh action
+                    fbinder.pullToRefresh.isRefreshing = false
                 }
                 .addOnFailureListener { exception ->
                     Toast.makeText(this, "Error fetching profile picture: ${exception.message}", Toast.LENGTH_SHORT).show()
+                    // Stop the refresh action even if there is an error
+                    fbinder.pullToRefresh.isRefreshing = false
                 }
         } else {
             Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+            // Stop the refresh action if the user is not logged in
+            fbinder.pullToRefresh.isRefreshing = false
         }
     }
+
 
 }
