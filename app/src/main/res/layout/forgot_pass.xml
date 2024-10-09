@@ -10,18 +10,21 @@
     android:gravity="center">
 
 
+
+
     <EditText
         android:id="@+id/email_edit_text"
         android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:hint="Enter your email"
+        android:textColorHint="@color/lightgrey"
         android:inputType="textEmailAddress"
         android:textColor="@color/black"
         android:background="@color/white"
         android:padding="12dp"
         android:layout_marginBottom="20dp"/>
 
-    <!-- Reset Password TextView (Clickable) -->
+
     <TextView
         android:id="@+id/reset_password_text"
         android:layout_width="wrap_content"

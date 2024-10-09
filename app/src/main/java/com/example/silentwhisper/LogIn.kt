@@ -1,5 +1,6 @@
 package com.example.silentwhisper
 
+import android.util.Patterns
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
@@ -24,6 +25,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.silentwhisper.databinding.ActivityLogInBinding
 import com.google.firebase.auth.FirebaseAuth
 lateinit var binder:ActivityLogInBinding
+
+
 
 class LogIn : AppCompatActivity() {
     lateinit var pbar: ProgressBar
@@ -102,9 +105,8 @@ class LogIn : AppCompatActivity() {
             loadingDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
             loadingDialog.setCancelable(false)
             loadingDialog.findViewById<TextView>(R.id.reset_password_text).setOnClickListener {
-                val email =
-                    loadingDialog.findViewById<EditText>(R.id.email_edit_text).getText().toString()
-                if (!email.isEmpty()) {
+                val email =loadingDialog.findViewById<EditText>(R.id.email_edit_text).getText().toString()
+                if (!email.isEmpty() &&  Patterns.EMAIL_ADDRESS.matcher(email).matches() ) {
                     Toast.makeText(this@LogIn,"Valid email",Toast.LENGTH_SHORT).show()
                     resetPassword(email)
                     loadingDialog.dismiss()
