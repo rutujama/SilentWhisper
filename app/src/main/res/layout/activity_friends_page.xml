@@ -5,43 +5,385 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FriendsPage"
-    android:background="@color/royalblue"
-    android:orientation="vertical">
+    android:background="@color/lightgrey"
+    android:orientation="vertical"
+    android:padding="9dp">
 
-    <TextView
-        android:id="@+id/hibox"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Welcome Admin"
-        android:textSize="40dp"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/myprofileicon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/dp_circle"
+            android:clipToOutline="true"
+            android:backgroundTint="@color/black"
+            android:src="@drawable/swlogo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:elevation="10dp"/>
+
+        <TextView
+            android:id="@+id/chatsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chats"
+            android:textStyle="bold"
+            android:layout_marginStart="20dp"
+            android:textSize="30sp"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@id/myprofileicon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:elevation="10dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/dp_circle"
+            android:src="@drawable/addicon"
+            android:backgroundTint="@color/orange"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:backgroundTint="@color/darkgrey"
+        android:background="@drawable/roundedpanel"
+        android:gravity="center_vertical"
+        android:padding="2dp"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="50dp"
-        android:textAlignment="textStart">
-
-    </TextView>
+        android:elevation="8dp">
 
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/logoutbtn"
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search"
+            android:layout_marginLeft="20dp"
+            android:textStyle="bold">
+
+        </TextView>
+
+
+    </LinearLayout>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pullToRefresh"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="LogOut"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:backgroundTint="@color/cherryred"
-        android:textColor="@color/white"/>
+        android:layout_weight="1">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:padding="10dp"
+        android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/myprofilebtn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/circleicon"
-        android:src="@drawable/smiley">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-    </androidx.appcompat.widget.AppCompatImageButton>
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:background="@drawable/dp_circle"
+                android:clipToOutline="true"
+                android:src="@drawable/guy1"
+                android:scaleType="centerCrop"
+                android:elevation="9dp">
+
+            </androidx.appcompat.widget.AppCompatImageButton>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:orientation="vertical"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Denis Panjuta"
+                    android:textStyle="bold"
+                    android:textSize="16sp">
+
+                </TextView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hey , how have you been?"
+                    android:textSize="14sp">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical"
+                android:gravity="end"
+                android:layout_gravity="end">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12:35"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="@color/orange"
+                    android:layout_marginTop="10dp">
+                </TextView>
+
+                <TextView
+                    android:layout_marginTop="3dp"
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:background="@drawable/dp_circle"
+                    android:backgroundTint="@color/orange"
+                    android:text="3"
+                    android:gravity="center"
+                    android:textStyle="bold">
+
+                </TextView>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/darkgrey"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:background="@drawable/dp_circle"
+                android:clipToOutline="true"
+                android:src="@drawable/guy2"
+                android:scaleType="centerCrop"
+                android:elevation="9dp">
+
+            </androidx.appcompat.widget.AppCompatImageButton>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:orientation="vertical"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="John Doe"
+                    android:textStyle="bold"
+                    android:textSize="16sp">
+
+                </TextView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="I'll come to pick!"
+                    android:textSize="14sp">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical"
+                android:gravity="end"
+                android:layout_gravity="end">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="11:20"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="@color/orange"
+                    android:layout_marginTop="10dp">
+                </TextView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/darkgrey"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:background="@drawable/dp_circle"
+                android:clipToOutline="true"
+                android:src="@drawable/guy3"
+                android:scaleType="centerCrop"
+                android:elevation="9dp">
+
+            </androidx.appcompat.widget.AppCompatImageButton>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:orientation="vertical"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Miss Haley"
+                    android:textStyle="bold"
+                    android:textSize="16sp">
+
+                </TextView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hi,can i borrow your nb"
+                    android:textSize="14sp">
+
+                </TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical"
+                android:gravity="end"
+                android:layout_gravity="end">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10:59"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="@color/orange"
+                    android:layout_marginTop="10dp">
+                </TextView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/roundedpanel"
+        android:backgroundTint="@color/darkgrey"
+        android:elevation="6dp"
+        android:layout_marginBottom="10dp">
+
+        <!-- First Button -->
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/button1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/chaticon"
+            android:background="@drawable/dp_circle"
+            android:clipToOutline="true"
+            android:backgroundTint="@color/darkergrey"
+            android:elevation="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button2"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/button2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/smiley"
+            android:background="@drawable/dp_circle"
+            android:clipToOutline="true"
+            android:backgroundTint="@color/darkergrey"
+            android:elevation="8dp"
+            app:layout_constraintStart_toEndOf="@id/button1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button3"/>
+
+        <!-- Third Button -->
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/button3"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/camera"
+            android:background="@drawable/dp_circle"
+            android:clipToOutline="true"
+            android:backgroundTint="@color/darkergrey"
+            android:elevation="8dp"
+            app:layout_constraintStart_toEndOf="@id/button2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/setting"/>
+
+        <!-- Fourth Button -->
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/setting"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/settingicon"
+            android:background="@drawable/dp_circle"
+            android:clipToOutline="true"
+            android:backgroundTint="@color/darkergrey"
+            android:elevation="8dp"
+            app:layout_constraintStart_toEndOf="@id/button3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </LinearLayout>

@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import com.bumptech.glide.Glide
 import com.example.silentwhisper.databinding.ActivityMyProfileBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -20,6 +21,11 @@ class MyProfile : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mybind= ActivityMyProfileBinding.inflate(layoutInflater)
         setContentView(mybind.root)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Do nothing, back button is disabled
+            }
+        })
         auth=FirebaseAuth.getInstance()
         val curruser=auth.currentUser
         if(curruser!=null)
@@ -48,6 +54,7 @@ class MyProfile : AppCompatActivity() {
         }
         mybind.editbtn.setOnClickListener{
             startActivity(Intent(this@MyProfile,updateInfo::class.java))
+            finishAffinity()
         }
     }
 
