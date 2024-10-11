@@ -80,232 +80,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:padding="10dp"
-        android:orientation="vertical">
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/usersRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:visibility="visible"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:background="@drawable/dp_circle"
-                android:clipToOutline="true"
-                android:src="@drawable/guy1"
-                android:scaleType="centerCrop"
-                android:elevation="9dp">
 
-            </androidx.appcompat.widget.AppCompatImageButton>
+            >
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
-                android:orientation="vertical"
-                android:gravity="center_vertical">
+        </androidx.recyclerview.widget.RecyclerView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Denis Panjuta"
-                    android:textStyle="bold"
-                    android:textSize="16sp">
 
-                </TextView>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hey , how have you been?"
-                    android:textSize="14sp">
 
-                </TextView>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:orientation="vertical"
-                android:gravity="end"
-                android:layout_gravity="end">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="12:35"
-                    android:textStyle="bold"
-                    android:textSize="15sp"
-                    android:textColor="@color/orange"
-                    android:layout_marginTop="10dp">
-                </TextView>
-
-                <TextView
-                    android:layout_marginTop="3dp"
-                    android:layout_width="20sp"
-                    android:layout_height="20sp"
-                    android:background="@drawable/dp_circle"
-                    android:backgroundTint="@color/orange"
-                    android:text="3"
-                    android:gravity="center"
-                    android:textStyle="bold">
-
-                </TextView>
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/darkgrey"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:background="@drawable/dp_circle"
-                android:clipToOutline="true"
-                android:src="@drawable/guy2"
-                android:scaleType="centerCrop"
-                android:elevation="9dp">
-
-            </androidx.appcompat.widget.AppCompatImageButton>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
-                android:orientation="vertical"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="John Doe"
-                    android:textStyle="bold"
-                    android:textSize="16sp">
-
-                </TextView>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="I'll come to pick!"
-                    android:textSize="14sp">
-
-                </TextView>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:orientation="vertical"
-                android:gravity="end"
-                android:layout_gravity="end">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="11:20"
-                    android:textStyle="bold"
-                    android:textSize="15sp"
-                    android:textColor="@color/orange"
-                    android:layout_marginTop="10dp">
-                </TextView>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/darkgrey"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:background="@drawable/dp_circle"
-                android:clipToOutline="true"
-                android:src="@drawable/guy3"
-                android:scaleType="centerCrop"
-                android:elevation="9dp">
-
-            </androidx.appcompat.widget.AppCompatImageButton>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
-                android:orientation="vertical"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Miss Haley"
-                    android:textStyle="bold"
-                    android:textSize="16sp">
-
-                </TextView>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hi,can i borrow your nb"
-                    android:textSize="14sp">
-
-                </TextView>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:orientation="vertical"
-                android:gravity="end"
-                android:layout_gravity="end">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="10:59"
-                    android:textStyle="bold"
-                    android:textSize="15sp"
-                    android:textColor="@color/orange"
-                    android:layout_marginTop="10dp">
-                </TextView>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </LinearLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
