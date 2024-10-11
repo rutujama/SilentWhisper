@@ -103,7 +103,7 @@ class LogIn : AppCompatActivity() {
             val loadingDialog = Dialog(this)
             loadingDialog.setContentView(R.layout.forgot_pass)
             loadingDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-            loadingDialog.setCancelable(false)
+            loadingDialog.setCancelable(true)
             loadingDialog.findViewById<TextView>(R.id.reset_password_text).setOnClickListener {
                 val email =loadingDialog.findViewById<EditText>(R.id.email_edit_text).getText().toString()
                 if (!email.isEmpty() &&  Patterns.EMAIL_ADDRESS.matcher(email).matches() ) {
