@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.example.silentwhisper.R
@@ -25,6 +26,7 @@ import com.xwray.groupie.Item
 lateinit var abind:ActivityAddUsersBinding
 class AddUsers : AppCompatActivity() {
     private lateinit var adapter: GroupAdapter<GroupieViewHolder>
+    private lateinit var allUsers: List<User> // Store all users to filter later
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +40,14 @@ class AddUsers : AppCompatActivity() {
 
         // Initialize the adapter
         adapter = GroupAdapter<GroupieViewHolder>()
-        fetchUsers()
-        abind.addRecyclerView.adapter = adapter // Set the adapter to RecyclerView // Fetch users
+        abind.addRecyclerView.adapter = adapter // Set the adapter to RecyclerView
+
+        // Set up search functionality
+        abind.searchInput.addTextChangedListener { text ->
+            filterUsers(text.toString()) // Call filter method on text change
+        }
+
+        fetchUsers() // Fetch users
     }
 
     private fun fetchUsers() {
@@ -48,20 +56,34 @@ class AddUsers : AppCompatActivity() {
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid // Get the current user's ID
 
         usersRef.get().addOnSuccessListener { querySnapshot ->
+            val usersList = mutableListOf<User>() // Temporary list to hold users
+
             for (document in querySnapshot) {
                 val user = document.toObject(User::class.java) // Convert document to User object
 
                 // Check if the user ID is not the current user's ID
                 if (document.id != currentUserId) {
+                    usersList.add(user) // Add the user to the list
                     adapter.add(UserItem(user)) // Add the UserItem to the adapter
                 }
             }
-            abind.addRecyclerView.adapter = adapter // Set the adapter to RecyclerView
+            allUsers = usersList // Store all users for filtering
         }.addOnFailureListener { exception ->
             Log.e("AddUsers", "Error getting users: ", exception) // Log errors if any
         }
     }
+
+    private fun filterUsers(query: String) {
+        adapter.clear() // Clear the current displayed items
+        val filteredUsers = allUsers.filter { user ->
+            user.username.contains(query, ignoreCase = true) // Filter based on username
+        }
+        for (user in filteredUsers) {
+            adapter.add(UserItem(user)) // Add filtered users to the adapter
+        }
+    }
 }
+
 
 
 class UserItem(private val user: User) : Item<GroupieViewHolder>() {
