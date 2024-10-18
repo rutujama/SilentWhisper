@@ -49,6 +49,10 @@ class FriendsPage : AppCompatActivity() {
                 setProfilePicture(cUser)
             }
         })
+
+        fbinder.addbtn.setOnClickListener{
+            startActivity(Intent(this@FriendsPage,AddUsers::class.java))
+        }
     }
 
     fun setProfilePicture(cUser: FirebaseUser) {

@@ -91,14 +91,8 @@
             android:overScrollMode="never"
             android:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-
-
             >
-
         </androidx.recyclerview.widget.RecyclerView>
-
-
-
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -124,10 +118,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/button2"/>
+            app:layout_constraintEnd_toStartOf="@id/addbtn"/>
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/button2"
+            android:id="@+id/addbtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="10dp"
@@ -154,7 +148,7 @@
             android:clipToOutline="true"
             android:backgroundTint="@color/darkergrey"
             android:elevation="8dp"
-            app:layout_constraintStart_toEndOf="@id/button2"
+            app:layout_constraintStart_toEndOf="@id/addbtn"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/setting"/>

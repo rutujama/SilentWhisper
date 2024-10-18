@@ -4,10 +4,14 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-feature android:name="android.hardware.camera" android:required="false"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -19,11 +23,14 @@
         android:theme="@style/Theme.SilentWhisper"
         tools:targetApi="31">
         <activity
+            android:name=".AddUsers"
+            android:exported="false" />
+        <activity
             android:name=".dpDialog"
             android:exported="false" />
         <activity
             android:name=".MyProfile"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".updateInfo"
             android:exported="false" />
@@ -57,13 +64,15 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
         <provider
-            android:authorities="com.example.silentwhisper.FileProvider"
             android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.silentwhisper.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
-            <meta-data android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/path"/>
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/path" />
         </provider>
     </application>
 
