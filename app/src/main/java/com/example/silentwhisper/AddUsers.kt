@@ -8,6 +8,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
@@ -79,8 +80,7 @@ class AddUsers : AppCompatActivity() {
             val usersList = mutableListOf<User>() // Temporary list to hold users
 
             for (document in querySnapshot) {
-                val user = document.toObject(User::class.java) // Convert document to User object
-
+                val user = document.toObject(User::class.java).copy(id = document.id) // Set the user ID
                 // Check if the user ID is not the current user's ID
                 if (document.id != currentUserId) {
                     usersList.add(user) // Add the user to the list
@@ -110,7 +110,13 @@ class UserItem(private val user: User) : Item<GroupieViewHolder>() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         // Set the user data to the view
         viewHolder.itemView.findViewById<TextView>(R.id.container_name).text = user.username
-        // Optionally load the profile picture using Glide or another image loading library
+        viewHolder.itemView.findViewById<ImageButton>(R.id.container_add).setOnClickListener {
+            val intent = Intent(it.context, ChatPage::class.java)
+            intent.putExtra("USER_ID", user.id) // Pass the user ID
+            it.context.startActivity(intent)
+        }
+
+        // Load the profile picture using Glide
         Glide.with(viewHolder.itemView)
             .load(user.profilePic)
             .into(viewHolder.itemView.findViewById<ImageView>(R.id.container_image))
@@ -120,3 +126,4 @@ class UserItem(private val user: User) : Item<GroupieViewHolder>() {
         return R.layout.newuser_container
     }
 }
+
