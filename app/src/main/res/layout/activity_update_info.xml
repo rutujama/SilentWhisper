@@ -10,6 +10,16 @@
     android:background="@color/inkblue"
     tools:context=".updateInfo">
 
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/crossbtn"
+        android:elevation="10dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="right"
+        android:background="@drawable/dp_circle"
+        android:src="@drawable/close_icon"
+        android:backgroundTint="@color/orange"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

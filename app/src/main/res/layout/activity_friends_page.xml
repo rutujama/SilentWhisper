@@ -41,11 +41,12 @@
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/notifcation_btn"
             android:elevation="10dp"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/dp_circle"
-            android:src="@drawable/addicon"
+            android:src="@drawable/bellicon"
             android:backgroundTint="@color/orange"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -105,7 +106,7 @@
 
         <!-- First Button -->
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/button1"
+            android:id="@+id/chatbtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="10dp"
@@ -131,7 +132,7 @@
             android:clipToOutline="true"
             android:backgroundTint="@color/darkergrey"
             android:elevation="8dp"
-            app:layout_constraintStart_toEndOf="@id/button1"
+            app:layout_constraintStart_toEndOf="@id/chatbtn"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/button3"/>

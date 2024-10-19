@@ -116,6 +116,11 @@ class updateInfo : AppCompatActivity() {
             }
         }
 
+        ubind.crossbtn.setOnClickListener {
+            startActivity(Intent(this@updateInfo,MyProfile::class.java))
+            finish()
+        }
+
         ubind.dpbtn.setOnClickListener {
             if(requestpermission()) {
                 val dialog = Dialog(this)

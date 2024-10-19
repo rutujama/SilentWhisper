@@ -53,6 +53,10 @@ class FriendsPage : AppCompatActivity() {
         fbinder.addbtn.setOnClickListener{
             startActivity(Intent(this@FriendsPage,AddUsers::class.java))
         }
+
+        fbinder.chatbtn.setOnClickListener {
+            startActivity(Intent(this@FriendsPage,ChatPage::class.java))
+        }
     }
 
     fun setProfilePicture(cUser: FirebaseUser) {

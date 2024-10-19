@@ -3,6 +3,9 @@ package com.example.silentwhisper
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -17,6 +20,7 @@ class MyProfile : AppCompatActivity() {
     lateinit var mybind: ActivityMyProfileBinding
     lateinit var auth: FirebaseAuth
     lateinit var sharedpref: SharedPreferences
+    lateinit var curruser:FirebaseUser
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mybind= ActivityMyProfileBinding.inflate(layoutInflater)
@@ -26,9 +30,11 @@ class MyProfile : AppCompatActivity() {
                 // Do nothing, back button is disabled
             }
         })
-        auth=FirebaseAuth.getInstance()
-        val curruser=auth.currentUser
-        if(curruser!=null)
+        if(isInternetAvailable(this@MyProfile)) {
+            auth = FirebaseAuth.getInstance()
+            curruser = auth.currentUser!!
+        }
+        if(curruser!=null )
         {
             mybind.tvEmail.setText(curruser.email)
             setnumber(curruser)
@@ -55,6 +61,20 @@ class MyProfile : AppCompatActivity() {
         mybind.editbtn.setOnClickListener{
             startActivity(Intent(this@MyProfile,updateInfo::class.java))
             finishAffinity()
+        }
+    }
+
+    fun isInternetAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork ?: return false
+            val networkCapabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+            return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                    networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+        } else {
+            @Suppress("DEPRECATION")
+            val activeNetworkInfo = connectivityManager.activeNetworkInfo
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected
         }
     }
 
