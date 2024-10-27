@@ -1,12 +1,17 @@
 package com.example.silentwhisper
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.fragment.app.DialogFragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -52,6 +57,26 @@ class FriendsPage : AppCompatActivity() {
 
         fbinder.addbtn.setOnClickListener{
             startActivity(Intent(this@FriendsPage,AddUsers::class.java))
+        }
+
+        fbinder.anonIcon.setOnClickListener {
+            val dialog = AlertDialog.Builder(this@FriendsPage)
+                .setIcon(getDrawable(R.drawable.anonymous))
+                .setTitle("Go Anonymous!!")
+                .setMessage("This feature allows you to hide your identity. Turn on the switch to use your anonymous username and a hidden profile picture.")
+                .setCancelable(true)
+                .setNegativeButton("Close") { dialogInterface, _ ->
+                    dialogInterface.dismiss()
+                }
+                .create()
+            dialog.show()
+        }
+
+        fbinder.anonSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked){
+            }
+            else{
+            }
         }
     }
 
