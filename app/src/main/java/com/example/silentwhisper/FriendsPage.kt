@@ -4,6 +4,9 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -35,9 +38,14 @@ class FriendsPage : AppCompatActivity() {
         val userList = ArrayList<FirebaseUser>()
         val cUser = FirebaseAuth.getInstance().currentUser
         auth=FirebaseAuth.getInstance()
-        if(cUser!=null)
+        if(isInternetAvailable(this) && cUser!=null)
         {
             setProfilePicture(cUser)
+            setAnonstatus(cUser)
+        }
+        else
+        {
+            Toast.makeText(this, "Please Check You Internet Connection", Toast.LENGTH_SHORT).show()
         }
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -74,9 +82,86 @@ class FriendsPage : AppCompatActivity() {
 
         fbinder.anonSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked){
+                if(isInternetAvailable(this)){
+                    val userUpdate = hashMapOf(
+                        "isAnon" to true
+                    )
+                    if (cUser != null) {
+                        val db=FirebaseFirestore.getInstance()
+                        db.collection("users").document(cUser.uid)
+                            .update(userUpdate as Map<String, Any>)
+                    }
+                }
+                else{
+                    fbinder.anonSwitch.isChecked=false
+                    Toast.makeText(this@FriendsPage, "To update Anonymity You require Network", Toast.LENGTH_SHORT).show()
+                }
             }
             else{
+                if(isInternetAvailable(this)){
+                    val userUpdate = hashMapOf(
+                        "isAnon" to false
+                    )
+                    if (cUser != null) {
+                        val db=FirebaseFirestore.getInstance()
+                        db.collection("users").document(cUser.uid)
+                            .update(userUpdate as Map<String, Any>)
+                    }
+                }
+                else{
+                    fbinder.anonSwitch.isChecked=true
+                    Toast.makeText(this@FriendsPage, "To update Anonymity You require Network", Toast.LENGTH_SHORT).show()
+                }
             }
+        }
+    }
+
+
+    fun setAnonstatus(cUser: FirebaseUser){
+        if (cUser != null) {
+            val userId = cUser.uid // Get the current user's UID
+
+            // Reference to the Firestore document
+            val db = FirebaseFirestore.getInstance()
+
+            db.collection("users").document(userId).get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        // Fetch the phone number from the document
+                        val isAnon = document.getBoolean("isAnon")
+                        if (isAnon != null) {
+                            if(isAnon) {
+                                fbinder.anonSwitch.isChecked = true
+                            }
+                            else{
+                                fbinder.anonSwitch.isChecked = false
+                            }
+                        } else {
+                            Toast.makeText(this, "Anonymous status not found", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Toast.makeText(this, "Error fetching data: ${exception.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun isInternetAvailable(context: Context): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork ?: return false
+            val networkCapabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+            return networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                    networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+        } else {
+            @Suppress("DEPRECATION")
+            val activeNetworkInfo = connectivityManager.activeNetworkInfo
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected
         }
     }
 
