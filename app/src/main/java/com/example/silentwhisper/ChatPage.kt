@@ -50,12 +50,24 @@ class ChatPage : AppCompatActivity() {
             db.collection("users").document(userId).get()
                 .addOnSuccessListener { document ->
                     if (document != null && document.exists()) {
-                        // Fetch the username from the document
-                        val username = document.getString("username") // Update this to the correct field name
-                        if (username != null) {
-                            cbind.username.setText(username) // Update this to match the UI element
-                        } else {
-                            Toast.makeText(this, "Username not found", Toast.LENGTH_SHORT).show()
+                        val isAnon=document.getBoolean("isAnon")
+                        if(isAnon == true){
+                            val username = document.getString("anonusername") // Update this to the correct field name
+                            if (username != null) {
+                                cbind.username.setText(username) // Update this to match the UI element
+                            } else {
+                                Toast.makeText(this, "Username not found", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        else {
+                            val username =
+                                document.getString("username") // Update this to the correct field name
+                            if (username != null) {
+                                cbind.username.setText(username) // Update this to match the UI element
+                            } else {
+                                Toast.makeText(this, "Username not found", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
                         }
                     } else {
                         Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show()
@@ -72,20 +84,27 @@ class ChatPage : AppCompatActivity() {
         db.collection("users").document(userId).get()
             .addOnSuccessListener { document ->
                 if (document != null && document.exists()) {
-                    // Fetch the profile picture URL from the document
-                    val profilePicUrl =
-                        document.getString("profilePic") // Fetch profile picture URL from "profilePic" field
 
-                    if (profilePicUrl != null) {
-                        // Assuming you are using Glide to load the image into an ImageView (e.g., ubind.profileImageView)
-                        Glide.with(this)
-                            .load(profilePicUrl)
-                            .placeholder(R.drawable.swlogo) // Placeholder image
-                            .error(R.drawable.swlogo)         // Error image
-                            .into(cbind.userimage)                // Update with your ImageView
+                    val isAnon=document.getBoolean("isAnon")
+                    if(isAnon == true){
+                        cbind.userimage.setImageResource(R.drawable.swlogo)
+                    }
+                    else {
+                        val profilePicUrl =
+                            document.getString("profilePic") // Fetch profile picture URL from "profilePic" field
 
-                    } else {
-                        Toast.makeText(this, "Profile picture not found", Toast.LENGTH_SHORT).show()
+                        if (profilePicUrl != null) {
+                            // Assuming you are using Glide to load the image into an ImageView (e.g., ubind.profileImageView)
+                            Glide.with(this)
+                                .load(profilePicUrl)
+                                .placeholder(R.drawable.swlogo) // Placeholder image
+                                .error(R.drawable.swlogo)         // Error image
+                                .into(cbind.userimage)                // Update with your ImageView
+
+                        } else {
+                            Toast.makeText(this, "Profile picture not found", Toast.LENGTH_SHORT)
+                                .show()
+                        }
                     }
                 } else {
                     Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show()

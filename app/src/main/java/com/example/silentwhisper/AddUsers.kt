@@ -80,7 +80,15 @@ class AddUsers : AppCompatActivity() {
             val usersList = mutableListOf<User>() // Temporary list to hold users
 
             for (document in querySnapshot) {
-                val user = document.toObject(User::class.java).copy(id = document.id) // Set the user ID
+                // Retrieve the 'isAnon' field from the document
+                val isAnon = document.getBoolean("isAnon") ?: false // Default to false if not present
+
+                // Create the user object
+                val user = document.toObject(User::class.java).copy(
+                    id = document.id,
+                    isAnon = isAnon // Set isAnon based on Firestore value
+                )
+
                 // Check if the user ID is not the current user's ID
                 if (document.id != currentUserId) {
                     usersList.add(user) // Add the user to the list
@@ -92,6 +100,8 @@ class AddUsers : AppCompatActivity() {
             Log.e("AddUsers", "Error getting users: ", exception) // Log errors if any
         }
     }
+
+
 
     private fun filterUsers(query: String) {
         adapter.clear() // Clear the current displayed items
@@ -109,17 +119,27 @@ class AddUsers : AppCompatActivity() {
 class UserItem(private val user: User) : Item<GroupieViewHolder>() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         // Set the user data to the view
-        viewHolder.itemView.findViewById<TextView>(R.id.container_name).text = user.username
-        viewHolder.itemView.findViewById<ImageButton>(R.id.container_add).setOnClickListener {
-            val intent = Intent(it.context, ChatPage::class.java)
-            intent.putExtra("USER_ID", user.id) // Pass the user ID
-            it.context.startActivity(intent)
+        if(user.isAnon)
+        {
+            viewHolder.itemView.findViewById<TextView>(R.id.container_name).text = user.anonusername
+            viewHolder.itemView.findViewById<ImageButton>(R.id.container_add).setOnClickListener {
+                val intent = Intent(it.context, ChatPage::class.java)
+                intent.putExtra("USER_ID", user.id)
+                it.context.startActivity(intent)
+            }
+            viewHolder.itemView.findViewById<ImageView>(R.id.container_image).setImageResource(R.drawable.swlogo)
         }
-
-        // Load the profile picture using Glide
-        Glide.with(viewHolder.itemView)
-            .load(user.profilePic)
-            .into(viewHolder.itemView.findViewById<ImageView>(R.id.container_image))
+        else {
+            viewHolder.itemView.findViewById<TextView>(R.id.container_name).text = user.username
+            viewHolder.itemView.findViewById<ImageButton>(R.id.container_add).setOnClickListener {
+                val intent = Intent(it.context, ChatPage::class.java)
+                intent.putExtra("USER_ID", user.id)
+                it.context.startActivity(intent)
+            }
+            Glide.with(viewHolder.itemView)
+                .load(user.profilePic)
+                .into(viewHolder.itemView.findViewById<ImageView>(R.id.container_image))
+        }
     }
 
     override fun getLayout(): Int {

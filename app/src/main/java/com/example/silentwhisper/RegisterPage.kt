@@ -69,6 +69,7 @@ class RegisterPage : AppCompatActivity() {
                                         "Email" to bind.emailbox.text.toString(),
                                         "MobileNum" to bind.mobilenumbox.text.toString(),
                                         "anonusername" to allotted_username,
+                                        "isAnon" to false,
                                         "profilePic" to "gs://silentwhisperdb.appspot.com/profilePic/swlogo.png"
                                     )
                                     db.collection("users").document(userId).set(user)
