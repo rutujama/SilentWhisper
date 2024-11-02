@@ -136,6 +136,9 @@ class FriendsPage : AppCompatActivity() {
                 filterUsers(text.toString())
             }
         }
+        fbinder.notificationBtn.setOnClickListener {
+            startActivity(Intent(this@FriendsPage,Notifications_Page::class.java))
+        }
     }
 
 

@@ -27,10 +27,10 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/chatsText"
+            android:id="@+id/notifText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Friends"
+            android:text="Notifications"
             android:textColor="@color/white"
             android:textSize="30sp"
             android:textStyle="bold"
@@ -54,7 +54,7 @@
 
 
         <EditText
-            android:id="@+id/searchInput"
+            android:id="@+id/notifsearchInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Search"
@@ -70,14 +70,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Discover People :"
+        android:text="Recent Updates :"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
         android:textSize="15dp">
 
     </TextView>
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/addRecyclerView"
+        android:id="@+id/notifRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"

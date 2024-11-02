@@ -8,6 +8,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
 import com.bumptech.glide.Glide
 import com.example.silentwhisper.databinding.ActivityChatPageBinding
 import com.google.firebase.auth.FirebaseUser
@@ -19,6 +20,7 @@ class ChatPage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         cbind=ActivityChatPageBinding.inflate(layoutInflater)
         setContentView(cbind.root)
+        getWindow().setBackgroundDrawable(getDrawable(R.drawable.appwallpaper))
         val userId = intent.getStringExtra("USER_ID") ?: ""
         if(!userId.isEmpty() && isInternetAvailable(this@ChatPage))
         {

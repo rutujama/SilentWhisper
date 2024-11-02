@@ -23,9 +23,12 @@
         android:theme="@style/Theme.SilentWhisper"
         tools:targetApi="31">
         <activity
+            android:name=".Notifications_Page"
+            android:exported="false" />
+        <activity
             android:name=".ChatPage"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".AddUsers"
             android:exported="false" />
