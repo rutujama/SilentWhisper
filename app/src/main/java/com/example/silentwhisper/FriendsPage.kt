@@ -9,9 +9,11 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -158,7 +160,7 @@ class FriendsPage : AppCompatActivity() {
                 // Check if the user ID is not the current user's ID
                 if (document.id != currentUserId) {
                     usersList.add(user) // Add the user to the list
-                    fadapter.add(UItem(user)) // Add the UserItem to the adapter
+                    fadapter.add(UItem(user,this@FriendsPage)) // Add the UserItem to the adapter
                 }
             }
             allUsers = usersList // Store all users for filtering
@@ -264,11 +266,11 @@ class FriendsPage : AppCompatActivity() {
             user.username.contains(query, ignoreCase = true) // Filter based on username
         }
         for (user in filteredUsers) {
-            fadapter.add(UItem(user)) // Add filtered users to the adapter
+            fadapter.add(UItem(user,this@FriendsPage)) // Add filtered users to the adapter
         }
     }
 }
-class UItem(private val user: User) : Item<GroupieViewHolder>() {
+class UItem(private val user: User,private val context: Context) : Item<GroupieViewHolder>() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         // Set the user data to the view
         if(user.isAnon)
@@ -281,6 +283,22 @@ class UItem(private val user: User) : Item<GroupieViewHolder>() {
             Glide.with(viewHolder.itemView)
                 .load(user.profilePic)
                 .into(viewHolder.itemView.findViewById<ImageView>(R.id.userimage))
+        }
+        viewHolder.itemView.findViewById<LinearLayout>(R.id.userbar).setOnClickListener {
+            val intent = Intent(context, ChatPage::class.java)
+            intent.putExtra("USER_ID", user.id)
+            context.startActivity(intent)
+        }
+        viewHolder.itemView.findViewById<ImageView>(R.id.userimage).setOnClickListener{
+            val dialog = Dialog(context)
+            dialog.setContentView(R.layout.dp_view_dialog)
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            dialog.setCancelable(true)
+            Glide.with(viewHolder.itemView)
+                .load(user.profilePic)
+                .circleCrop()
+                .into(dialog.findViewById<ImageView>(R.id.dp_view))
+            dialog.show()
         }
     }
 

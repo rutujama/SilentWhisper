@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="5dp"
-    tools:context=".MyProfile"
-    android:background="@color/black">
+    tools:context=".MyProfile">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -105,7 +104,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:padding="10dp"
+        android:padding="13dp"
         android:hint="Message"
         android:background="#00000000"
         android:layout_marginLeft="20dp"

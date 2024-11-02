@@ -9,6 +9,7 @@
     android:layout_marginRight="5dp">
 
     <LinearLayout
+        android:id="@+id/userbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
