@@ -73,17 +73,19 @@
         android:gravity="center_vertical"
         android:padding="2dp"
         android:layout_marginTop="10dp"
-        android:elevation="8dp">
+        android:elevation="8dp"
+        android:layout_marginBottom="10dp">
 
 
-        <TextView
+        <EditText
+            android:id="@+id/searchfriend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search"
+            android:hint="Search"
             android:layout_marginLeft="20dp"
-            android:textStyle="bold">
+            android:background="#00000000">
 
-        </TextView>
+        </EditText>
 
 
     </LinearLayout>
@@ -98,7 +100,6 @@
             android:id="@+id/usersRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp"
             android:orientation="vertical"
             android:clipToPadding="false"
             android:overScrollMode="never"
@@ -123,7 +124,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/chaticon"
+            android:src="@drawable/bellicon"
             android:background="@drawable/dp_circle"
             android:clipToOutline="true"
             android:backgroundTint="@color/darkergrey"

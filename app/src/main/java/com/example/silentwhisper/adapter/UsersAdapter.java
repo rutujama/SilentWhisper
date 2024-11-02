@@ -27,15 +27,15 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-       ItemContainerUsersBinding itemContainerUsersBinding=ItemContainerUsersBinding.inflate(
-               LayoutInflater.from(parent.getContext()),parent,false);
+        ItemContainerUsersBinding itemContainerUsersBinding=ItemContainerUsersBinding.inflate(
+                LayoutInflater.from(parent.getContext()),parent,false);
 
         return new UserViewHolder(itemContainerUsersBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-             holder.setUserData(users.get(position));
+        holder.setUserData(users.get(position));
     }
 
     @Override
@@ -47,15 +47,13 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         ItemContainerUsersBinding binding;
         UserViewHolder(ItemContainerUsersBinding itemContainerUserBinding) {
             super(itemContainerUserBinding.getRoot());  // Correct usage of getRoot() method
-       binding = itemContainerUserBinding;
+            binding = itemContainerUserBinding;
         }
         void setUserData(Users users)
         {
-            binding.name.setText(users.name);
-            binding.email.setText(users.email);
-            binding.image.setImageBitmap(getUserimage(users.image));
-
-
+//            binding.name.setText(users.name);
+//            binding.email.setText(users.email);
+//            binding.image.setImageBitmap(getUserimage(users.image));
         }
 
 
@@ -64,7 +62,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
     {
         byte[] bytes = Base64.decode(encodedImage, android.util.Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(bytes
-        ,0,bytes.length);
+                ,0,bytes.length);
     }
 
 
