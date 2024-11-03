@@ -109,7 +109,7 @@
             android:layout_marginLeft="10dp"/>
 
     <EditText
-        android:id="@+id/searchInput"
+        android:id="@+id/msget"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"

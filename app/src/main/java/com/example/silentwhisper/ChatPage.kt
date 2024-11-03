@@ -7,14 +7,22 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Message
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import com.bumptech.glide.Glide
 import com.example.silentwhisper.databinding.ActivityChatPageBinding
+import com.example.silentwhisper.models.Users
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
 
 lateinit var cbind : ActivityChatPageBinding
+var firebaseuser:FirebaseUser ?= null
 class ChatPage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,11 +35,90 @@ class ChatPage : AppCompatActivity() {
             setProfilePicture(userId)
             setUsername(userId)
         }
+//        val reference=FirebaseDatabase.getInstance().reference
+//            .child("Users").child(userId)
+
+//        reference.addValueEventListener(object :ValueEventListener{
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//              val user: Users? = snapshot.getValue(Users::class.java)
+//
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//
+//            }
+//
+//        })
+
+
+       firebaseuser=FirebaseAuth.getInstance().currentUser
         cbind.backbtn.setOnClickListener {
             startActivity(Intent(this@ChatPage,FriendsPage::class.java))
             finish()
         }
+
+
+        cbind.sendbtn.setOnClickListener(){
+            val message=cbind.msget.text.toString()
+            if(message.isEmpty()==false)
+            {
+                   sendmsg(firebaseuser!!.uid,userId,message)
+            }
+
+        }
     }
+    fun sendmsg(sId: String,rId:String,message:String)
+    {
+        val reference=FirebaseDatabase.getInstance().reference
+        val messageKey=reference.push().key
+        val msgHashMap= HashMap<String,Any?>()
+
+        msgHashMap["sender"]=sId
+        msgHashMap["message"]=message
+        msgHashMap["receiver"]=rId
+        msgHashMap["isseen"]=false
+        msgHashMap["url"]=""
+        msgHashMap["messageId"]=messageKey
+        reference.child("Chats").child(messageKey!!)
+            .setValue(msgHashMap ).addOnCompleteListener{
+                task ->
+                if(task.isSuccessful)
+                {
+                    val ChatListreference=FirebaseDatabase.getInstance()
+                        .reference.child("ChatList")
+                        .child(firebaseuser!!.uid)
+                        .child(rId)
+                    ChatListreference.addListenerForSingleValueEvent(object :ValueEventListener{
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if(!snapshot.exists())
+                            {
+                                ChatListreference.child("id").setValue(rId)
+                            }
+                            val ChatListReceieverreference=FirebaseDatabase.getInstance()
+                                .reference.child("ChatList")
+                                .child(rId)
+                                .child(firebaseuser!!.uid)
+                            ChatListReceieverreference.child("id")
+                                .setValue(firebaseuser!!.uid)
+
+
+                            ChatListreference.child("id")
+                                .setValue(firebaseuser!!.uid)
+
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+
+                        }
+
+                    })
+
+                    val reference=FirebaseDatabase.getInstance()
+                        .reference.child("Users").child(firebaseuser!!.uid)
+                }
+            }
+    }
+
     fun isInternetAvailable(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
