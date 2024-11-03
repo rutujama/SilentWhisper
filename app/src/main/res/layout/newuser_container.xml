@@ -25,6 +25,8 @@
         android:text="Yash Gupta"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="@color/white"
         android:layout_weight="1"
         android:gravity="center_vertical"/>
 

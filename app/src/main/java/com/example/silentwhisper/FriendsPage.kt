@@ -50,6 +50,7 @@ class FriendsPage : AppCompatActivity() {
         val userList = ArrayList<FirebaseUser>()
         val cUser = FirebaseAuth.getInstance().currentUser
         auth=FirebaseAuth.getInstance()
+        val loadingDialog = Dialog(this)
         if(isInternetAvailable(this) && cUser!=null)
         {
             setProfilePicture(cUser)
@@ -69,7 +70,6 @@ class FriendsPage : AppCompatActivity() {
         fUsers()
         fbinder.setting.setOnClickListener{
             startActivity(Intent(this@FriendsPage,MyProfile::class.java))
-            finishAffinity()
         }
         fbinder.pullToRefresh.setOnRefreshListener(OnRefreshListener {
             if(cUser!=null)

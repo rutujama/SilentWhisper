@@ -55,12 +55,10 @@ class MyProfile : AppCompatActivity() {
             finish()
         }
         mybind.backbtn.setOnClickListener{
-            startActivity(Intent(this@MyProfile,FriendsPage::class.java))
             finish()
         }
         mybind.editbtn.setOnClickListener{
             startActivity(Intent(this@MyProfile,updateInfo::class.java))
-            finishAffinity()
         }
     }
 

@@ -11,8 +11,10 @@ import android.util.Log
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.example.silentwhisper.R
 import com.example.silentwhisper.databinding.ActivityAddUsersBinding
@@ -30,7 +32,7 @@ import com.xwray.groupie.Item
 
 lateinit var abind:ActivityAddUsersBinding
 class AddUsers : AppCompatActivity() {
-    private lateinit var adapter: GroupAdapter<GroupieViewHolder>
+    private lateinit var aadapter: GroupAdapter<GroupieViewHolder>
     private lateinit var allUsers: List<User> // Store all users to filter later
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,13 +41,16 @@ class AddUsers : AppCompatActivity() {
         setContentView(abind.root)
 
         abind.backbtn.setOnClickListener {
-            startActivity(Intent(this@AddUsers, FriendsPage::class.java))
             finish()
         }
 
+        abind.pullToRefresh.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+            aadapter.clear()
+            fetchUsers()
+        })
         // Initialize the adapter
-        adapter = GroupAdapter<GroupieViewHolder>()
-        abind.addRecyclerView.adapter = adapter // Set the adapter to RecyclerView
+        aadapter = GroupAdapter<GroupieViewHolder>()
+        abind.addRecyclerView.adapter = aadapter // Set the adapter to RecyclerView
 
         // Set up search functionality
         abind.searchInput.addTextChangedListener { text ->
@@ -53,8 +58,7 @@ class AddUsers : AppCompatActivity() {
                 filterUsers(text.toString()) // Call filter method on text change
             }
         }
-
-        fetchUsers() // Fetch users
+        fetchUsers()
     }
 
     fun isInternetAvailable(context: Context): Boolean {
@@ -72,6 +76,11 @@ class AddUsers : AppCompatActivity() {
     }
 
     private fun fetchUsers() {
+        if(!isInternetAvailable(this@AddUsers)){
+            Toast.makeText(this, "Please check your connection", Toast.LENGTH_SHORT).show()
+            abind.pullToRefresh.isRefreshing = false
+            return
+        }
         val db = FirebaseFirestore.getInstance()
         val usersRef = db.collection("users") // Reference to the "users" collection
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid // Get the current user's ID
@@ -92,24 +101,25 @@ class AddUsers : AppCompatActivity() {
                 // Check if the user ID is not the current user's ID
                 if (document.id != currentUserId) {
                     usersList.add(user) // Add the user to the list
-                    adapter.add(UserItem(user)) // Add the UserItem to the adapter
+                    aadapter.add(UserItem(user)) // Add the UserItem to the adapter
                 }
             }
             allUsers = usersList // Store all users for filtering
         }.addOnFailureListener { exception ->
             Log.e("AddUsers", "Error getting users: ", exception) // Log errors if any
         }
+        abind.pullToRefresh.isRefreshing = false
     }
 
 
 
     private fun filterUsers(query: String) {
-        adapter.clear() // Clear the current displayed items
+        aadapter.clear() // Clear the current displayed items
         val filteredUsers = allUsers.filter { user ->
             user.username.contains(query, ignoreCase = true) // Filter based on username
         }
         for (user in filteredUsers) {
-            adapter.add(UserItem(user)) // Add filtered users to the adapter
+            aadapter.add(UserItem(user)) // Add filtered users to the adapter
         }
     }
 }

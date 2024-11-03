@@ -95,7 +95,7 @@ class updateInfo : AppCompatActivity() {
                     }
                     ubind.savebtn.isClickable = true
                     startActivity(Intent(this@updateInfo, FriendsPage::class.java))
-                    finish()
+                    finishAffinity()
                 } else {
                     ubind.savebtn.isClickable = true
                     Toast.makeText(this@updateInfo, "Name Can't Be Empty", Toast.LENGTH_SHORT)
@@ -117,7 +117,6 @@ class updateInfo : AppCompatActivity() {
         }
 
         ubind.crossbtn.setOnClickListener {
-            startActivity(Intent(this@updateInfo,MyProfile::class.java))
             finish()
         }
 

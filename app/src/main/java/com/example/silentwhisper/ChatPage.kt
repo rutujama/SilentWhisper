@@ -35,22 +35,6 @@ class ChatPage : AppCompatActivity() {
             setProfilePicture(userId)
             setUsername(userId)
         }
-//        val reference=FirebaseDatabase.getInstance().reference
-//            .child("Users").child(userId)
-
-//        reference.addValueEventListener(object :ValueEventListener{
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//              val user: Users? = snapshot.getValue(Users::class.java)
-//
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//
-//            }
-//
-//        })
-
-
        firebaseuser=FirebaseAuth.getInstance().currentUser
         cbind.backbtn.setOnClickListener {
             startActivity(Intent(this@ChatPage,FriendsPage::class.java))
@@ -62,9 +46,14 @@ class ChatPage : AppCompatActivity() {
             val message=cbind.msget.text.toString()
             if(message.isEmpty()==false)
             {
-                   sendmsg(firebaseuser!!.uid,userId,message)
+                   if(isInternetAvailable(this@ChatPage)) {
+                       sendmsg(firebaseuser!!.uid, userId, message)
+                       cbind.msget.setText("")
+                   }
+                   else{
+                       Toast.makeText(this, "Please check your Network!", Toast.LENGTH_SHORT).show()
+                   }
             }
-
         }
     }
     fun sendmsg(sId: String,rId:String,message:String)
