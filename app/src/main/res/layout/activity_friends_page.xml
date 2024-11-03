@@ -157,7 +157,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/camera"
+            android:src="@drawable/group_symbol"
             android:background="@drawable/dp_circle"
             android:clipToOutline="true"
             android:backgroundTint="@color/darkergrey"

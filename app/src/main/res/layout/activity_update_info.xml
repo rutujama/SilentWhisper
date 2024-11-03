@@ -98,20 +98,19 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginBottom="30dp">
-    <TextView
+    <EditText
         android:id="@+id/anonymousnamebtn"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:backgroundTint="@color/white"
         android:background="@drawable/roundeddialog"
-        android:clickable="false"
         android:text="Admin"
         android:textColor="@color/black"
         android:gravity="center_vertical"
         android:textSize="19sp"
         android:padding="10dp">
 
-    </TextView>
+    </EditText>
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/anonymousnamereloadbtn"

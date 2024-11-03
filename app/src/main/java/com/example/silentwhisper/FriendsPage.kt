@@ -88,7 +88,7 @@ class FriendsPage : AppCompatActivity() {
             val dialog = AlertDialog.Builder(this@FriendsPage)
                 .setIcon(getDrawable(R.drawable.anonymous))
                 .setTitle("Go Anonymous!!")
-                .setMessage("This feature allows you to hide your identity. Turn on the switch to use your anonymous username and a hidden profile picture.")
+                .setMessage("This feature lets you stay anonymous. Enable it to use your anonymous username and a hidden profile picture. To get a random display picture and name, go to Settings.")
                 .setCancelable(true)
                 .setNegativeButton("Close") { dialogInterface, _ ->
                     dialogInterface.dismiss()
