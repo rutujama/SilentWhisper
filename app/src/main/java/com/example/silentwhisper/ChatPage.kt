@@ -8,10 +8,13 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Message
+import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import com.bumptech.glide.Glide
 import com.example.silentwhisper.databinding.ActivityChatPageBinding
+import com.example.silentwhisper.models.Chat
 import com.example.silentwhisper.models.Users
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -23,10 +26,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
+import org.w3c.dom.Text
 
-lateinit var cbind : ActivityChatPageBinding
-var firebaseuser:FirebaseUser ?= null
 class ChatPage : AppCompatActivity() {
+    lateinit var cbind : ActivityChatPageBinding
+    var firebaseuser:FirebaseUser ?= null
     lateinit var cadapter:GroupAdapter<GroupieViewHolder>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +47,7 @@ class ChatPage : AppCompatActivity() {
 
         cadapter = GroupAdapter<GroupieViewHolder>()
         cbind.chatRecyclerView.adapter=cadapter
-        fetchChats()
+        fetchChats(firebaseuser!!.uid, userId)
 
         cbind.backbtn.setOnClickListener {
             startActivity(Intent(this@ChatPage,FriendsPage::class.java))
@@ -64,33 +68,43 @@ class ChatPage : AppCompatActivity() {
         }
     }
 
-    private fun fetchChats() {
-        cadapter.add(chatitem(true))
-        cadapter.add(chatitem(false))
-        cadapter.add(chatitem(false))
-        cadapter.add(chatitem(true))
-        cadapter.add(chatitem(true))
-        cadapter.add(chatitem(true))
-        cadapter.add(chatitem(false))
-        cadapter.add(chatitem(false))
-        cadapter.add(chatitem(true))
-        cadapter.add(chatitem(true))
-        cadapter.add(chatitem(true))
-        cadapter.add(chatitem(false))
-        cadapter.add(chatitem(false))
-        cadapter.add(chatitem(true))
-        cadapter.add(chatitem(true))
-        cadapter.add(chatitem(true))
-        cadapter.add(chatitem(false))
-        cadapter.add(chatitem(false))
-        cadapter.add(chatitem(true))
-        cadapter.add(chatitem(true))
-        cadapter.add(chatitem(true))
-        cadapter.add(chatitem(false))
-        cadapter.add(chatitem(false))
-        cadapter.add(chatitem(true))
-        cadapter.add(chatitem(true))
+    private fun fetchChats(sId: String, rId: String) {
+        if (!isInternetAvailable(this@ChatPage)) {
+            Toast.makeText(this, "Please check your connection", Toast.LENGTH_SHORT).show()
+            abind.pullToRefresh.isRefreshing = false
+            return
+        }
+
+        val dbRef = FirebaseDatabase.getInstance().getReference("Chats") // Reference to "Chats" node
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
+        dbRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                cadapter.clear() // Clear adapter to avoid duplicate entries
+
+                for (chatSnapshot in snapshot.children) {
+                    val chat = chatSnapshot.getValue(Chat::class.java)
+                    if (chat != null) {
+                        // Filter messages between the sender and receiver
+                        if ((chat.getsender() == sId && chat.getreceiver() == rId) ||
+                            (chat.getsender() == rId && chat.getreceiver() == sId)) {
+
+                            // Determine if message is sent by the current user
+                            val isCurrentUserSender = chat.getsender() == currentUserId
+                            val messageText = chat.getmessage()
+
+                            // Add chat item to the adapter with flag for message alignment
+                            cadapter.add(chatitem(isCurrentUserSender, messageText))
+                        }
+                    }
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("ChatActivity", "Error fetching chats: ${error.message}")
+            }
+        })
     }
+
 
     fun sendmsg(sId: String,rId:String,message:String)
     {
@@ -233,9 +247,9 @@ class ChatPage : AppCompatActivity() {
             }
     }
 }
-class chatitem(val flag:Boolean): Item<GroupieViewHolder>(){
+class chatitem(val flag:Boolean,val currtext:String): Item<GroupieViewHolder>(){
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-
+           viewHolder.itemView.findViewById<TextView>(R.id.texthere).setText(currtext)
     }
     override fun getLayout(): Int {
         if(flag==false) {
