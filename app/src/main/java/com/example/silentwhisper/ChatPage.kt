@@ -49,6 +49,10 @@ class ChatPage : AppCompatActivity() {
         cbind.chatRecyclerView.adapter=cadapter
         fetchChats(firebaseuser!!.uid, userId)
 
+
+        cbind.msget.setOnClickListener{
+            cbind.chatRecyclerView.scrollToPosition(cadapter.itemCount-1)
+        }
         cbind.backbtn.setOnClickListener {
             startActivity(Intent(this@ChatPage,FriendsPage::class.java))
             finish()
@@ -71,11 +75,10 @@ class ChatPage : AppCompatActivity() {
     private fun fetchChats(sId: String, rId: String) {
         if (!isInternetAvailable(this@ChatPage)) {
             Toast.makeText(this, "Please check your connection", Toast.LENGTH_SHORT).show()
-            abind.pullToRefresh.isRefreshing = false
             return
         }
 
-        val dbRef = FirebaseDatabase.getInstance().getReference("Chats") // Reference to "Chats" node
+        val dbRef = FirebaseDatabase.getInstance().getReference("Chats")
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
 
         dbRef.addValueEventListener(object : ValueEventListener {
@@ -98,6 +101,7 @@ class ChatPage : AppCompatActivity() {
                         }
                     }
                 }
+                cbind.chatRecyclerView.scrollToPosition(cadapter.itemCount-1)
             }
             override fun onCancelled(error: DatabaseError) {
                 Log.e("ChatActivity", "Error fetching chats: ${error.message}")

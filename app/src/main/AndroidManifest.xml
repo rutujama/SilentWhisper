@@ -28,7 +28,7 @@
         <activity
             android:name=".ChatPage"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".AddUsers"
             android:exported="false" />
