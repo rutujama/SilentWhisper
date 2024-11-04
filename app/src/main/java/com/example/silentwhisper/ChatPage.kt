@@ -20,10 +20,14 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.GroupieViewHolder
+import com.xwray.groupie.Item
 
 lateinit var cbind : ActivityChatPageBinding
 var firebaseuser:FirebaseUser ?= null
 class ChatPage : AppCompatActivity() {
+    lateinit var cadapter:GroupAdapter<GroupieViewHolder>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         cbind=ActivityChatPageBinding.inflate(layoutInflater)
@@ -35,13 +39,16 @@ class ChatPage : AppCompatActivity() {
             setProfilePicture(userId)
             setUsername(userId)
         }
-       firebaseuser=FirebaseAuth.getInstance().currentUser
+        firebaseuser=FirebaseAuth.getInstance().currentUser
+
+        cadapter = GroupAdapter<GroupieViewHolder>()
+        cbind.chatRecyclerView.adapter=cadapter
+        fetchChats()
+
         cbind.backbtn.setOnClickListener {
             startActivity(Intent(this@ChatPage,FriendsPage::class.java))
             finish()
         }
-
-
         cbind.sendbtn.setOnClickListener(){
             val message=cbind.msget.text.toString()
             if(message.isEmpty()==false)
@@ -56,6 +63,35 @@ class ChatPage : AppCompatActivity() {
             }
         }
     }
+
+    private fun fetchChats() {
+        cadapter.add(chatitem(true))
+        cadapter.add(chatitem(false))
+        cadapter.add(chatitem(false))
+        cadapter.add(chatitem(true))
+        cadapter.add(chatitem(true))
+        cadapter.add(chatitem(true))
+        cadapter.add(chatitem(false))
+        cadapter.add(chatitem(false))
+        cadapter.add(chatitem(true))
+        cadapter.add(chatitem(true))
+        cadapter.add(chatitem(true))
+        cadapter.add(chatitem(false))
+        cadapter.add(chatitem(false))
+        cadapter.add(chatitem(true))
+        cadapter.add(chatitem(true))
+        cadapter.add(chatitem(true))
+        cadapter.add(chatitem(false))
+        cadapter.add(chatitem(false))
+        cadapter.add(chatitem(true))
+        cadapter.add(chatitem(true))
+        cadapter.add(chatitem(true))
+        cadapter.add(chatitem(false))
+        cadapter.add(chatitem(false))
+        cadapter.add(chatitem(true))
+        cadapter.add(chatitem(true))
+    }
+
     fun sendmsg(sId: String,rId:String,message:String)
     {
         val reference=FirebaseDatabase.getInstance().reference
@@ -196,4 +232,18 @@ class ChatPage : AppCompatActivity() {
                 ).show()
             }
     }
+}
+class chatitem(val flag:Boolean): Item<GroupieViewHolder>(){
+    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
+
+    }
+    override fun getLayout(): Int {
+        if(flag==false) {
+            return R.layout.message_left
+        }
+        else{
+            return R.layout.message_right
+        }
+    }
+
 }
