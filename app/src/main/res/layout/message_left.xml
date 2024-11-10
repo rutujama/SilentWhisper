@@ -16,18 +16,37 @@
         android:gravity="start"
         android:layout_marginEnd="50dp">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/message_panel_left">
         <TextView
             android:id="@+id/texthere"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/message_panel_left"
-            android:padding="8dp"
-            android:text="Heyy"
+            android:padding="7dp"
+            android:text=""
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="17sp"
             tools:layout_editor_absoluteY="10dp"
-            android:layout_gravity="center">
+            android:layout_gravity="start|center_vertical"
+            android:textAlignment="textStart"
+            android:layout_weight="1">
         </TextView>
+
+            <TextView
+                android:id="@+id/currtime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="12dp"
+                android:layout_gravity="end|bottom"
+                android:padding="3dp"
+                android:maxLines="1">
+
+            </TextView>
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

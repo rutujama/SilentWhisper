@@ -27,6 +27,8 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import org.w3c.dom.Text
+import java.text.SimpleDateFormat
+import java.util.Calendar
 
 class ChatPage : AppCompatActivity() {
     lateinit var cbind : ActivityChatPageBinding
@@ -95,9 +97,10 @@ class ChatPage : AppCompatActivity() {
                             // Determine if message is sent by the current user
                             val isCurrentUserSender = chat.getsender() == currentUserId
                             val messageText = chat.getmessage()
+                            val time= chat.gettime()
 
                             // Add chat item to the adapter with flag for message alignment
-                            cadapter.add(chatitem(isCurrentUserSender, messageText))
+                            cadapter.add(chatitem(isCurrentUserSender, messageText,time))
                         }
                     }
                 }
@@ -122,6 +125,7 @@ class ChatPage : AppCompatActivity() {
         msgHashMap["isseen"]=false
         msgHashMap["url"]=""
         msgHashMap["messageId"]=messageKey
+        msgHashMap["time"]= SimpleDateFormat("HH:mm").format(Calendar.getInstance().time)
         reference.child("Chats").child(messageKey!!)
             .setValue(msgHashMap ).addOnCompleteListener{
                 task ->
@@ -251,9 +255,10 @@ class ChatPage : AppCompatActivity() {
             }
     }
 }
-class chatitem(val flag:Boolean,val currtext:String): Item<GroupieViewHolder>(){
+class chatitem(val flag:Boolean,val currtext:String,val time:String): Item<GroupieViewHolder>(){
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
            viewHolder.itemView.findViewById<TextView>(R.id.texthere).setText(currtext)
+           viewHolder.itemView.findViewById<TextView>(R.id.currtime).setText(time)
     }
     override fun getLayout(): Int {
         if(flag==false) {

@@ -7,7 +7,8 @@ data class User(
     val anonusername: String = "",
     val profilePic: String = "",
     val username: String = "",
-    val isAnon:Boolean= true
+    val isAnon:Boolean= true,
+    val lastText:String =""
 )
 
 
