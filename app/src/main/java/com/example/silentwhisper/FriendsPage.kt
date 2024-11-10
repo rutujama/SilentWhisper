@@ -151,44 +151,45 @@ class FriendsPage : AppCompatActivity() {
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid // Get the current user's ID
         val chatListRef = FirebaseDatabase.getInstance().getReference("ChatList").child(currentUserId!!) // Reference to the current user's ChatList
 
-        usersRef.get().addOnSuccessListener { querySnapshot ->
+        chatListRef.get().addOnSuccessListener { chatListSnapshot ->
             val usersList = mutableListOf<User>() // Temporary list to hold users
 
-            for (document in querySnapshot) {
-                // Retrieve the 'isAnon' field from the document
-                val isAnon = document.getBoolean("isAnon") ?: false // Default to false if not present
+            for (chatSnapshot in chatListSnapshot.children) {
+                val userId = chatSnapshot.key // The user ID from the ChatList
 
-                // Create the user object
-                val user = document.toObject(User::class.java).copy(
-                    id = document.id,
-                    isAnon = isAnon // Set isAnon based on Firestore value
-                )
+                if (userId != null && userId != currentUserId) {
+                    // Get user details from Firestore
+                    usersRef.document(userId).get().addOnSuccessListener { document ->
+                        if (document.exists()) {
+                            val isAnon = document.getBoolean("isAnon") ?: false // Default to false if not present
+                            val user = document.toObject(User::class.java)?.copy(
+                                id = document.id,
+                                isAnon = isAnon // Set isAnon based on Firestore value
+                            )
 
-                // Check if the user ID is not the current user's ID
-                if (document.id != currentUserId) {
-                    // Get the ChatList entry for this user
-                    chatListRef.child(document.id).get().addOnSuccessListener { chatSnapshot ->
-                        // Retrieve last message and time from the ChatList
-                        val lastText = chatSnapshot.child("lastText").getValue(String::class.java)
-                        val lastTextTime = chatSnapshot.child("lastTextTime").getValue(Long::class.java)
+                            if (user != null) {
+                                // Retrieve last message and time from the ChatList
+                                val lastText = chatSnapshot.child("lastText").getValue(String::class.java) ?: "No messages"
+                                val lastTextTime = chatSnapshot.child("lastTextTime").getValue(Long::class.java)
+                                val formattedLastTextTime = if (lastTextTime != null) formatTimestamp(lastTextTime) else ""
 
-                        // Format the last message time
-                        val formattedLastTextTime = formatTimestamp(lastTextTime)
-
-                        // Add the UserItem to the adapter, passing last message data
-                        fadapter.add(UItem(user, lastText ?: "No messages", formattedLastTextTime, this@FriendsPage))
+                                // Add the user to the adapter with the last message data
+                                fadapter.add(UItem(user, lastText, formattedLastTextTime, this@FriendsPage))
+                                usersList.add(user) // Add the user to the list
+                            }
+                        }
                     }.addOnFailureListener { exception ->
-                        Log.e("ChatList", "Error fetching chat list for ${document.id}: ", exception)
+                        Log.e("fUsers", "Error fetching user data for $userId: ", exception)
                     }
-
-                    usersList.add(user) // Add the user to the list (you can add this line after fetching the last message)
                 }
             }
-            allUsers = usersList // Store all users for filtering
+
+            allUsers = usersList // Store all users for filtering (if needed)
         }.addOnFailureListener { exception ->
-            Log.e("AddUsers", "Error getting users: ", exception) // Log errors if any
+            Log.e("fUsers", "Error fetching chat list: ", exception)
         }
     }
+
 
 
 

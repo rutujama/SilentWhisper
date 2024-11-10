@@ -113,58 +113,41 @@ class ChatPage : AppCompatActivity() {
     }
 
 
-    fun sendmsg(sId: String,rId:String,message:String)
-    {
-        val reference=FirebaseDatabase.getInstance().reference
-        val messageKey=reference.push().key
-        val msgHashMap= HashMap<String,Any?>()
+    fun sendmsg(sId: String, rId: String, message: String) {
+        val reference = FirebaseDatabase.getInstance().reference
+        val messageKey = reference.push().key ?: return
+        val msgHashMap = HashMap<String, Any?>()
 
-        msgHashMap["sender"]=sId
-        msgHashMap["message"]=message
-        msgHashMap["receiver"]=rId
-        msgHashMap["isseen"]=false
-        msgHashMap["url"]=""
-        msgHashMap["messageId"]=messageKey
-        msgHashMap["time"]= SimpleDateFormat("HH:mm").format(Calendar.getInstance().time)
-        reference.child("Chats").child(messageKey!!)
-            .setValue(msgHashMap ).addOnCompleteListener{
-                task ->
-                if(task.isSuccessful)
-                {
-                    val ChatListreference=FirebaseDatabase.getInstance()
-                        .reference.child("ChatList")
-                        .child(firebaseuser!!.uid)
-                        .child(rId)
-                    ChatListreference.addListenerForSingleValueEvent(object :ValueEventListener{
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            if(!snapshot.exists())
-                            {
-                                ChatListreference.child("id").setValue(rId)
-                            }
-                            val ChatListReceieverreference=FirebaseDatabase.getInstance()
-                                .reference.child("ChatList")
-                                .child(rId)
-                                .child(firebaseuser!!.uid)
-                            ChatListReceieverreference.child("id")
-                                .setValue(firebaseuser!!.uid)
+        msgHashMap["sender"] = sId
+        msgHashMap["message"] = message
+        msgHashMap["receiver"] = rId
+        msgHashMap["isseen"] = false
+        msgHashMap["url"] = ""
+        msgHashMap["messageId"] = messageKey
+        msgHashMap["time"] = SimpleDateFormat("HH:mm").format(Calendar.getInstance().time)
 
+        // Save message to Chats node
+        reference.child("Chats").child(messageKey).setValue(msgHashMap).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                // Update sender's ChatList
+                val senderChatListRef = FirebaseDatabase.getInstance().getReference("ChatList").child(sId).child(rId)
+                senderChatListRef.child("lastText").setValue(message)
+                senderChatListRef.child("lastTextTime").setValue(System.currentTimeMillis())
 
-                            ChatListreference.child("id")
-                                .setValue(firebaseuser!!.uid)
+                // Update receiver's ChatList
+                val receiverChatListRef = FirebaseDatabase.getInstance().getReference("ChatList").child(rId).child(sId)
+                receiverChatListRef.child("lastText").setValue(message)
+                receiverChatListRef.child("lastTextTime").setValue(System.currentTimeMillis())
 
-                        }
+                // Ensure the sender's chat list also has the "id" field if not already set
+                senderChatListRef.child("id").setValue(rId)
 
-                        override fun onCancelled(error: DatabaseError) {
-
-                        }
-
-                    })
-
-                    val reference=FirebaseDatabase.getInstance()
-                        .reference.child("Users").child(firebaseuser!!.uid)
-                }
+                // Ensure the receiver's chat list also has the "id" field if not already set
+                receiverChatListRef.child("id").setValue(sId)
             }
+        }
     }
+
 
     fun isInternetAvailable(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
