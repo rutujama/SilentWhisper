@@ -1,5 +1,4 @@
 package com.example.silentwhisper
-
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -28,10 +27,14 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.silentwhisper.databinding.ActivityFriendsPageBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 
 class FriendsPage : AppCompatActivity() {
@@ -146,6 +149,7 @@ class FriendsPage : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
         val usersRef = db.collection("users") // Reference to the "users" collection
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid // Get the current user's ID
+        val chatListRef = FirebaseDatabase.getInstance().getReference("ChatList").child(currentUserId!!) // Reference to the current user's ChatList
 
         usersRef.get().addOnSuccessListener { querySnapshot ->
             val usersList = mutableListOf<User>() // Temporary list to hold users
@@ -162,8 +166,22 @@ class FriendsPage : AppCompatActivity() {
 
                 // Check if the user ID is not the current user's ID
                 if (document.id != currentUserId) {
-                    usersList.add(user) // Add the user to the list
-                    fadapter.add(UItem(user,this@FriendsPage)) // Add the UserItem to the adapter
+                    // Get the ChatList entry for this user
+                    chatListRef.child(document.id).get().addOnSuccessListener { chatSnapshot ->
+                        // Retrieve last message and time from the ChatList
+                        val lastText = chatSnapshot.child("lastText").getValue(String::class.java)
+                        val lastTextTime = chatSnapshot.child("lastTextTime").getValue(Long::class.java)
+
+                        // Format the last message time
+                        val formattedLastTextTime = formatTimestamp(lastTextTime)
+
+                        // Add the UserItem to the adapter, passing last message data
+                        fadapter.add(UItem(user, lastText ?: "No messages", formattedLastTextTime, this@FriendsPage))
+                    }.addOnFailureListener { exception ->
+                        Log.e("ChatList", "Error fetching chat list for ${document.id}: ", exception)
+                    }
+
+                    usersList.add(user) // Add the user to the list (you can add this line after fetching the last message)
                 }
             }
             allUsers = usersList // Store all users for filtering
@@ -171,6 +189,8 @@ class FriendsPage : AppCompatActivity() {
             Log.e("AddUsers", "Error getting users: ", exception) // Log errors if any
         }
     }
+
+
 
     fun setAnonstatus(cUser: FirebaseUser){
         if (cUser != null) {
@@ -264,35 +284,73 @@ class FriendsPage : AppCompatActivity() {
         }
     }
     private fun filterUsers(query: String) {
-        fadapter.clear() // Clear the current displayed items
-        val filteredUsers = allUsers.filter { user ->
-            user.username.contains(query, ignoreCase = true) // Filter based on username
+        val filteredList = mutableListOf<User>() // List to hold the filtered users
+
+        // Loop through all the users and apply the filtering criteria
+        for (user in allUsers) {
+            // Check if the user matches the filter criteria based on username
+            val usernameMatches = user.username?.contains(query, ignoreCase = true) == true
+
+            // Check if the last message matches the filter criteria (optional)
+            val lastMessageMatches = user.lastText?.contains(query, ignoreCase = true) == true
+
+            // Combine the conditions (username or last message)
+            if (usernameMatches || lastMessageMatches) {
+                filteredList.add(user) // Add user to the filtered list if it matches
+            }
         }
+
+        // Update the adapter with the filtered list of users
+        updateAdapter(filteredList)
+    }
+
+    private fun updateAdapter(filteredUsers: List<User>) {
+        fadapter.clear() // Clear the current adapter
+        // Add the filtered users to the adapter
         for (user in filteredUsers) {
-            fadapter.add(UItem(user,this@FriendsPage)) // Add filtered users to the adapter
+            fadapter.add(UItem(user, user.lastText, user.lastTextTime, this@FriendsPage)) // Directly pass lastTextTime
         }
+        fadapter.notifyDataSetChanged() // Notify the adapter to refresh the data
+    }
+
+    private fun formatTimestamp(timestamp: Long?): String {
+        if (timestamp != null) {
+            val sdf = SimpleDateFormat("HH:mm", Locale.getDefault()) // Format as HH:mm (24-hour format)
+            return sdf.format(Date(timestamp)) // Format the timestamp and return as a string
+        }
+        return "No time" // Return default string if timestamp is null
     }
 }
-class UItem(private val user: User,private val context: Context) : Item<GroupieViewHolder>() {
+class UItem(
+    private val user: User,
+    private val lastText: String? = null, // Optional: last message content
+    private val lastTextTime: String? = null, // Optional: formatted last message time
+    private val context: Context
+) : Item<GroupieViewHolder>() {
+
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         // Set the user data to the view
-        if(user.isAnon)
-        {
+        if (user.isAnon) {
             viewHolder.itemView.findViewById<TextView>(R.id.username).text = user.anonusername
             viewHolder.itemView.findViewById<ImageView>(R.id.userimage).setImageResource(R.drawable.swlogo)
-        }
-        else {
+        } else {
             viewHolder.itemView.findViewById<TextView>(R.id.username).text = user.username
             Glide.with(viewHolder.itemView)
                 .load(user.profilePic)
                 .into(viewHolder.itemView.findViewById<ImageView>(R.id.userimage))
         }
+
+        // Display the last message and time if available
+        viewHolder.itemView.findViewById<TextView>(R.id.recentText).text = lastText ?: "No messages"
+        viewHolder.itemView.findViewById<TextView>(R.id.last_time).text = lastTextTime ?: ""
+
         viewHolder.itemView.findViewById<LinearLayout>(R.id.userbar).setOnClickListener {
             val intent = Intent(context, ChatPage::class.java)
             intent.putExtra("USER_ID", user.id)
             context.startActivity(intent)
         }
-        viewHolder.itemView.findViewById<ImageView>(R.id.userimage).setOnClickListener{
+
+        viewHolder.itemView.findViewById<ImageView>(R.id.userimage).setOnClickListener {
             val dialog = Dialog(context)
             dialog.setContentView(R.layout.dp_view_dialog)
             dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
@@ -306,6 +364,6 @@ class UItem(private val user: User,private val context: Context) : Item<GroupieV
     }
 
     override fun getLayout(): Int {
-        return R.layout.item_container_users
+        return R.layout.item_container_users // Your existing layout
     }
 }
