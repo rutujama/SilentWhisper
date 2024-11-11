@@ -37,17 +37,17 @@ We have developed a cutting-edge messenger app that revolutionizes group communi
 
 ## Installation
 
-Install my-project with play store
-
-```bash
-  download it from github.
-```
+Install my-project By either cloning the repository or by Installing a Zip for it
 https://github.com/Yash-2907/SilentWhisper
 
 ## API Reference
 
-
+https://picsum.photos/
 https://usernameapiv1.vercel.app/api/random-usernames
+https://github.com/bumptech/glide
+https://github.com/lisawray/groupie
+
+
 ## Authors
 
 - [@Yash-2907](https://www.github.com/Yash-2907)
@@ -57,7 +57,7 @@ https://usernameapiv1.vercel.app/api/random-usernames
 
 
 
-## Documentation
+## Designs and Presentation
 https://docs.google.com/presentation/d/1DyCZRvSGPToafoE1M4sFS1jSzbolVnSz/view?usp=sharing
 
 https://www.figma.com/proto/VLc9yIRp7aGIOdXNWx56Ue/prototype-mini-project?node-id=180-12&node-type=canvas&t=zNyNUphodFKKB8vZ-0&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=3%3A34
