@@ -11,6 +11,7 @@ import android.os.Message
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.content.res.AppCompatResources
 import com.bumptech.glide.Glide
 import com.example.silentwhisper.databinding.ActivityChatPageBinding
@@ -39,6 +40,11 @@ class ChatPage : AppCompatActivity() {
         cbind=ActivityChatPageBinding.inflate(layoutInflater)
         setContentView(cbind.root)
         getWindow().setBackgroundDrawable(getDrawable(R.drawable.appwallpaper))
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Do nothing, back button is disabled
+            }
+        })
         val userId = intent.getStringExtra("USER_ID") ?: ""
         if(!userId.isEmpty() && isInternetAvailable(this@ChatPage))
         {
@@ -50,7 +56,8 @@ class ChatPage : AppCompatActivity() {
         cadapter = GroupAdapter<GroupieViewHolder>()
         cbind.chatRecyclerView.adapter=cadapter
         fetchChats(firebaseuser!!.uid, userId)
-
+        val chatListRef = FirebaseDatabase.getInstance().getReference("ChatList").child(firebaseuser!!.uid).child(userId)
+        chatListRef.child("newmsg").setValue(0)
 
         cbind.msget.setOnClickListener{
             cbind.chatRecyclerView.scrollToPosition(cadapter.itemCount-1)
@@ -105,6 +112,8 @@ class ChatPage : AppCompatActivity() {
                     }
                 }
                 cbind.chatRecyclerView.scrollToPosition(cadapter.itemCount-1)
+                val chatListRef = FirebaseDatabase.getInstance().getReference("ChatList").child(currentUserId).child(rId)
+                chatListRef.child("newmsg").setValue(0)
             }
             override fun onCancelled(error: DatabaseError) {
                 Log.e("ChatActivity", "Error fetching chats: ${error.message}")
@@ -129,15 +138,28 @@ class ChatPage : AppCompatActivity() {
         // Save message to Chats node
         reference.child("Chats").child(messageKey).setValue(msgHashMap).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                // Update sender's ChatList
                 val senderChatListRef = FirebaseDatabase.getInstance().getReference("ChatList").child(sId).child(rId)
+                val receiverChatListRef = FirebaseDatabase.getInstance().getReference("ChatList").child(rId).child(sId)
+
+                // Update the sender's chat list
                 senderChatListRef.child("lastText").setValue(message)
                 senderChatListRef.child("lastTextTime").setValue(System.currentTimeMillis())
 
-                // Update receiver's ChatList
-                val receiverChatListRef = FirebaseDatabase.getInstance().getReference("ChatList").child(rId).child(sId)
+                // Update the receiver's chat list
                 receiverChatListRef.child("lastText").setValue(message)
                 receiverChatListRef.child("lastTextTime").setValue(System.currentTimeMillis())
+
+                // Increment "newmsg" count in the receiver's chat list
+                receiverChatListRef.child("newmsg").addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val currentCount = snapshot.getValue(Int::class.java) ?: 0
+                        receiverChatListRef.child("newmsg").setValue(currentCount + 1)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.e("FirebaseError", "Failed to update newmsg count: ${error.message}")
+                    }
+                })
 
                 // Ensure the sender's chat list also has the "id" field if not already set
                 senderChatListRef.child("id").setValue(rId)
@@ -147,6 +169,7 @@ class ChatPage : AppCompatActivity() {
             }
         }
     }
+
 
 
     fun isInternetAvailable(context: Context): Boolean {

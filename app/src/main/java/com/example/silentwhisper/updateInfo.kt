@@ -121,26 +121,31 @@ class updateInfo : AppCompatActivity() {
         }
 
         ubind.dpbtn.setOnClickListener {
-            if(requestpermission()) {
-                val dialog = Dialog(this)
-                dialog.setContentView(R.layout.activity_dp_dialog)
-                dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-                dialog.findViewById<LinearLayout>(R.id.camerabox).setOnClickListener {
+            val dialog = Dialog(this)
+            dialog.setContentView(R.layout.activity_dp_dialog)
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            dialog.findViewById<LinearLayout>(R.id.camerabox).setOnClickListener {
+                if(requestpermission()) {
                     camContract.launch(imageUri)
-                    dialog.dismiss()
                 }
-                dialog.findViewById<LinearLayout>(R.id.gallerybtn).setOnClickListener {
+                else{
+                    Toast.makeText(this, "Oops Your Need To allow all permissions to access this feature!!", Toast.LENGTH_LONG).show()
+                }
+                dialog.dismiss()
+            }
+            dialog.findViewById<LinearLayout>(R.id.gallerybtn).setOnClickListener {
+                if(requestpermission()) {
                     contract.launch("image/*")
-                    dialog.dismiss()
                 }
-                dialog.findViewById<LinearLayout>(R.id.generatebtn).setOnClickListener {
-                    generateimage()
-                }
-                dialog.show()
-            }
-            else{
+                else{
                 Toast.makeText(this, "Oops Your Need To allow all permissions to access this feature!!", Toast.LENGTH_LONG).show()
+                }
+                dialog.dismiss()
             }
+            dialog.findViewById<LinearLayout>(R.id.generatebtn).setOnClickListener {
+                generateimage()
+            }
+            dialog.show()
         }
     }
 

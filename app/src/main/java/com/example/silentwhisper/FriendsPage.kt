@@ -171,10 +171,11 @@ class FriendsPage : AppCompatActivity() {
                                 // Retrieve last message and time from the ChatList
                                 val lastText = chatSnapshot.child("lastText").getValue(String::class.java) ?: "No messages"
                                 val lastTextTime = chatSnapshot.child("lastTextTime").getValue(Long::class.java)
+                                val newmsg = chatSnapshot.child("newmsg").getValue(Long::class.java) ?: 0L
                                 val formattedLastTextTime = if (lastTextTime != null) formatTimestamp(lastTextTime) else ""
 
                                 // Add the user to the adapter with the last message data
-                                fadapter.add(UItem(user, lastText, formattedLastTextTime, this@FriendsPage))
+                                fadapter.add(UItem(newmsg,user, lastText, formattedLastTextTime, this@FriendsPage))
                                 usersList.add(user) // Add the user to the list
                             }
                         }
@@ -309,7 +310,7 @@ class FriendsPage : AppCompatActivity() {
         fadapter.clear() // Clear the current adapter
         // Add the filtered users to the adapter
         for (user in filteredUsers) {
-            fadapter.add(UItem(user, user.lastText, user.lastTextTime, this@FriendsPage)) // Directly pass lastTextTime
+            fadapter.add(UItem(0L,user, user.lastText, user.lastTextTime, this@FriendsPage)) // Directly pass lastTextTime
         }
         fadapter.notifyDataSetChanged() // Notify the adapter to refresh the data
     }
@@ -323,13 +324,20 @@ class FriendsPage : AppCompatActivity() {
     }
 }
 class UItem(
+    private val newmsg: Long,
     private val user: User,
     private val lastText: String? = null, // Optional: last message content
     private val lastTextTime: String? = null, // Optional: formatted last message time
     private val context: Context
+
 ) : Item<GroupieViewHolder>() {
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
+
+        if ((newmsg ?: 0L) != 0L) {
+            viewHolder.itemView.findViewById<TextView>(R.id.newmsgcount).visibility=View.VISIBLE
+            viewHolder.itemView.findViewById<TextView>(R.id.newmsgcount).setText(newmsg.toString())
+        }
         // Set the user data to the view
         if (user.isAnon) {
             viewHolder.itemView.findViewById<TextView>(R.id.username).text = user.anonusername

@@ -71,6 +71,7 @@
                 android:textColor="@color/orange"/>
 
             <TextView
+                android:id="@+id/newmsgcount"
                 android:layout_width="16sp"
                 android:layout_height="16sp"
                 android:background="@drawable/dp_circle"
@@ -79,7 +80,8 @@
                 android:textSize="11dp"
                 android:textColor="@color/white"
                 android:gravity="center"
-                android:layout_marginTop="3dp" />
+                android:layout_marginTop="3dp"
+                android:visibility="invisible"/>
 
         </LinearLayout>
 
