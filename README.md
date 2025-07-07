@@ -87,3 +87,11 @@ https://www.figma.com/proto/VLc9yIRp7aGIOdXNWx56Ue/prototype-mini-project?node-i
 
 https://drive.google.com/file/d/1VT8Q4kYHEo86RholdoPcn3yMtCh8svHt/view?usp=drive_link
 
+Why This App Stands Out:
+Traditional group chat platforms lack mechanisms for hidden, recipient-specific communication within group environments. Our solution provides:
+
+✅ Enhanced privacy for sensitive conversations
+✅ Assurance that no unintended recipients can access private exchanges
+✅ A natural, discreet communication experience in group settings
+✅ Industry-standard encryption protecting all data
+
